@@ -10,7 +10,7 @@
 
 from .serializers import MsgPackRPCSerializer
 from abc import ABC, abstractmethod
-from typing import Any
+from typing import Any, Optional
 
 
 class RPCSerializer(ABC):
@@ -51,7 +51,7 @@ class RPCClient(ABC, SerializerMixin):
         pass
 
     @abstractmethod
-    def call(self, proc_name: str, kwargs: dict) -> Any:
+    def call(self, proc_name: str, kwargs: dict) -> Optional:
         pass
 
 
