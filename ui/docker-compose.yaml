@@ -1,0 +1,14 @@
+version: "3.5"
+services:
+    botcman__ui:
+        container_name: botcman__ui
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: botcman__ui:latest
+        networks:
+            - intercom
+networks:
+    intercom:
+        external: True
+
