@@ -1,6 +1,7 @@
-from .base import RPCClient
+from .serializers import SerializerMixin
 
-class ZMQRPCClient(RPCClient):
+
+class ZMQClient(SerializerMixin):
 
     def connect(self, addr: str):
         pass

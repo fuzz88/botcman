@@ -1,7 +1,9 @@
-from .base import RPCServer
+from .serializers import SerializerMixin
 
 
-class ZMQRPCServer(RPCServer):
+class ZMQServer(SerializerMixin):
+
+    __procedures: dict = {}
 
     def start(self, bind_addr: str):
         pass
@@ -10,4 +12,4 @@ class ZMQRPCServer(RPCServer):
         pass
 
     def register(self, proc: callable, proc_name: str):
-        pass
+        self.__procedures[proc_name] = proc
