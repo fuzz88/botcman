@@ -1,6 +1,7 @@
 version: "3.5"
 services:
     botcman__ui:
+        restart: always
         container_name: botcman__ui
         build:
             context: .
@@ -11,4 +12,3 @@ services:
 networks:
     intercom:
         external: True
-
