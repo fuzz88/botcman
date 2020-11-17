@@ -1,0 +1,16 @@
+version: "3.5"
+
+services:
+  botcman__bot:
+    container_name: botcman__bot
+    image: botcman__bot:latest
+    build:
+      context: .
+    volumes:
+      - ./app/:/opt/app/
+    networks:
+      - intercom
+
+networks:
+  intercom:
+    external: True
