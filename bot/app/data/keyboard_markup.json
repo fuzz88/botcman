@@ -1,10 +1,9 @@
 {
-    "keyboard": [
-        [
-            {
-                "text": "Зарегистрироваться как мувер"
-            }
-        ]
-    ],
-    "resize_keyboard": true,
-    "one_time_keyboard": true}
+	"keyboard": [
+		[{
+			"text": "Зарегистрироваться как мувер"
+		}]
+	],
+	"resize_keyboard": true,
+	"one_time_keyboard": true
+}
