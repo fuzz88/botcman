@@ -1,5 +1,6 @@
 from typing import Awaitable
 
+import asyncio
 from aioredis import create_connection, Channel
 
 
@@ -33,8 +34,13 @@ class RedisWires():
         await self._pub.execute(b'PUBLISH', channel_name, message)
 
     async def _receiver(self):
+        tasks = []
+        for name, channel in self._channels.items():
+            tasks.append(asyncio.ensure_future(self._wait_message(name, channel)))
+        await asyncio.gather(*tasks)
+
+    async def _wait_message(self, name, channel):
         while True:
-            for name, channel in self._channels.items():
-                async for message in channel.iter():
-                    for cb in self._callbacks:
-                        await cb(message)
+            async for message in channel.iter():
+                for cb in self._callbacks:
+                    await cb(name, message)

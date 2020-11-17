@@ -26,10 +26,11 @@ def is_redis_up(ip, port):
 
 @pytest.fixture(scope="session")
 def redis_service():
-    while True:
+    for _ in range(5):
         if is_redis_up(TEST_REDIS["host"], TEST_REDIS["port"]):
             return
         time.sleep(1)
+    pytest.exit("you need to start test_redis service to perform test")
 
 
 @pytest.mark.asyncio
@@ -49,12 +50,16 @@ async def test_redis_wires_pub_sub(redis_service):
     class Success(Exception):
         pass
 
-    async def my_recv_callback(data):
-        assert data == b"event"
+    async def my_recv_callback(channel, data):
+        assert data == b"event1"
         raise Success
 
     await wires._register_receiver_callback(my_recv_callback)
-    await wires._subscribe([b"test_chan:1"])
-    await wires._publish(b"test_chan:1", b"event")
+    await wires._subscribe([b"test_chan:1", b"test_chan:2", b"test_chan:3"])
+
+    assert len(wires._channels) == 3
+
+    await wires._publish(b"test_chan:2", b"event1")
+
     with pytest.raises(Success):
-        await wires._receiver(num=1)
+        await wires._receiver()
