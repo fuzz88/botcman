@@ -1,5 +1,6 @@
 <script>
 	export let name: string;
+	document.title = "Боцман -- Dashboard";
 </script>
 
 <main>
