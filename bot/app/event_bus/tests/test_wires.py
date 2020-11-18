@@ -1,18 +1,10 @@
 import time
 import pytest
 import socket
-import aioredis
 
 from app.event_bus.wires import RedisWires
 
-TEST_REDIS = {"host": "localhost", "port": 8091}
-
-
-@pytest.mark.asyncio
-async def test_redis_wires_instantiation():
-    wires = RedisWires()
-    assert isinstance(wires, RedisWires) is True
-    del wires
+TEST_REDIS = {"host": "localhost", "port": 8091, "db": 0}
 
 
 def is_redis_up(ip, port):
@@ -26,40 +18,28 @@ def is_redis_up(ip, port):
 
 @pytest.fixture(scope="session")
 def redis_service():
-    for _ in range(5):
+    for _ in range(10):
         if is_redis_up(TEST_REDIS["host"], TEST_REDIS["port"]):
-            return
-        time.sleep(1)
+            return f"redis://{TEST_REDIS['host']}:{TEST_REDIS['port']}/{TEST_REDIS['db']}"
+        time.sleep(0.1)
     pytest.exit("you need to start test_redis service to perform test")
 
 
-@pytest.mark.asyncio
-async def test_redis_wires_connect(redis_service):
+def test_redis_wires_instantiation():
     wires = RedisWires()
-    await wires._connect(TEST_REDIS["host"], TEST_REDIS["port"])
-
-    assert isinstance(wires._pub, aioredis.RedisConnection) is True
-    assert isinstance(wires._sub, aioredis.RedisConnection) is True
+    assert isinstance(wires, RedisWires) is True
 
 
-@pytest.mark.asyncio
-async def test_redis_wires_pub_sub(redis_service):
+def test_redis_wires_pub_sub_threaded(redis_service, reraise):
     wires = RedisWires()
-    await wires._connect(TEST_REDIS["host"], TEST_REDIS["port"])
+    wires.connect(redis_service)
 
-    class Success(Exception):
-        pass
+    def my_handler(message):
+        with reraise:
+            assert message["data"] == b"event1"
 
-    async def my_recv_callback(channel, data):
-        assert data == b"event1"
-        raise Success
-
-    await wires._register_receiver_callback(my_recv_callback)
-    await wires._subscribe([b"test_chan:1", b"test_chan:2", b"test_chan:3"])
-
-    assert len(wires._channels) == 3
-
-    await wires._publish(b"test_chan:2", b"event1")
-
-    with pytest.raises(Success):
-        await wires._receiver()
+    wires.subscribe({"test_chan:1": my_handler})
+    wires.start()
+    wires.publish("test_chan:1", "event1")
+    time.sleep(0.1)
+    wires.stop()
