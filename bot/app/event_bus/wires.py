@@ -25,7 +25,9 @@ class RedisWires():
             self._pubsub = self._redis.pubsub()
 
     def disconnect(self):
-        pass
+        self._redis = None
+        self._pubsub = None
+        self._connection_pool = None
 
     def subscribe(self, channels: dict):
         for channel, handler in channels.items():
