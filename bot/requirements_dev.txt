@@ -1,16 +1,15 @@
 attrs==20.3.0
 certifi==2020.11.8
 databases==0.4.1
-docstring-parser==0.7.3
 h11==0.11.0
 httpcore==0.12.1
 httpx==0.16.1
 idna==2.10
 iniconfig==1.1.1
 packaging==20.4
-pedantic==1.2.7
 pluggy==0.13.1
 py==1.9.0
+pydantic==1.7.2
 pyparsing==2.4.7
 pytest==6.1.2
 pytest-asyncio==0.14.0
