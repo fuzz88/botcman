@@ -1,6 +1,15 @@
-import time
+from typing import List
+from fastapi import FastAPI
 
-print("telegram bot have been started")
+import models
+import db
 
-while True:
-    time.sleep(1)
+app = FastAPI()
+
+db.init_app(app)
+
+
+@app.get("/api_users/", response_model=List[models.API_User])
+async def read_api_users():
+    query = models.api_users.select()
+    return await db.database.fetch_all(query)
