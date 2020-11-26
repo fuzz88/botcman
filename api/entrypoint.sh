@@ -1,4 +1,4 @@
 #!/bin/sh
 
 echo "Starting app.py with $(python -V)..."
-python /opt/app/app.py
+uvicorn --app-dir app/ app:app --workers 2 --log-level=warning --no-access-log
