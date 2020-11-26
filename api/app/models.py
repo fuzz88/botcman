@@ -1,13 +1,23 @@
-from pydantic import BaseModel
 import sqlalchemy
+from pydantic import BaseModel
 
 from db import metadata
+
+
+class UserCredentials(BaseModel):
+    username: str
+    password: str
 
 
 class API_User(BaseModel):
     id: int
     username: str
     password: str
+    role: str
+
+
+class AuthUser(BaseModel):
+    username: str
     role: str
 
 

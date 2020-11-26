@@ -1,15 +1,14 @@
 import databases
 import sqlalchemy
+import settings
 
 
-DATABASE_URL = "postgresql://postgres:postgres@localhost/botcman__test"
-
-database = databases.Database(DATABASE_URL)
+database = databases.Database(str(settings.DATABASE_URL))
 
 metadata = sqlalchemy.MetaData()
 
 
-def init_app(app):
+def init(app):
     @app.on_event("startup")
     async def startup():
         await database.connect()
