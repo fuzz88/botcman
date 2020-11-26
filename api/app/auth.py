@@ -73,7 +73,7 @@ def secure():
     def wrapper(func):
         @functools.wraps(func)
         async def wrapped(*args, **kwargs):
-            if isinstance(kwargs['current_user'], UnauthenticatedUser):
+            if not kwargs['current_user'].is_authenticated:
                 raise HTTPException(status_code=401)
             return await func(*args, **kwargs)
         return wrapped
@@ -86,5 +86,5 @@ class UserRole(SimpleUser):
         self.role = role
 
     @property
-    def role(self):
+    def get_role(self):
         return self.role
