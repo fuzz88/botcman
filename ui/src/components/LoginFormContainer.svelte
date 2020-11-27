@@ -7,7 +7,7 @@ let password = ''
 
 async function getLogged() {
         const user = {'username': username, 'password': password}
-        const res = await fetch('http://localhost:8000/auth', {
+        const res = await fetch('https://gaps-apps.ru/api/botcman/auth', {
             method: 'POST',
             body: JSON.stringify(user)
         });
