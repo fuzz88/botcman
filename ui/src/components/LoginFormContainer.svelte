@@ -59,8 +59,6 @@ async function getLogged() {
 <style>
 
 
-    @import "../../node_modules/bootstrap/scss/bootstrap";
-
     h1 {
         color: #ff3e00;
         text-transform: uppercase;

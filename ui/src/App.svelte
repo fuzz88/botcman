@@ -1,22 +1,22 @@
 <script>
 	document.title = "Боцман -- Dashboard";
 
-    import { user } from './stores/AuthStore.ts';
-	
-	import LoginFormContainer from './components/LoginFormContainer.svelte'
+    import LoginFormContainer from './components/LoginFormContainer.svelte'
 	import Dashboard from './components/Dashboard.svelte'
+
+    export let user;
+
+    const role_based_routing = {
+        "administrator": Dashboard,
+        "unauthorized": LoginFormContainer
+    };
 
 </script>
 
-{#if !$user }
-    <LoginFormContainer/>
-{/if}
 
-{#if $user }
-    <Dashboard/>
-{/if}
+<svelte:component this={role_based_routing[$user['role']]}/>
 
 
 <style>
-	@import "../node_modules/bootstrap/scss/bootstrap";
+
 </style>
