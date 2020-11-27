@@ -4,7 +4,7 @@ from fastapi import Request, Response, HTTPException
 
 from starlette.middleware.authentication import AuthenticationMiddleware
 from starlette.authentication import (
-    AuthenticationBackend, AuthenticationError, SimpleUser, UnauthenticatedUser,
+    AuthenticationBackend, AuthenticationError, SimpleUser,
     AuthCredentials)
 
 import jwt
