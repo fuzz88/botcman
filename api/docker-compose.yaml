@@ -8,7 +8,9 @@ services:
             dockerfile: Dockerfile
         image: botcman__api:latest
         environment:
-            - RELOAD=--reload
+            - DEBUG=1
+        volumes:
+            - ./app/:/opt/app/
         networks:
             - intercom
 networks:
