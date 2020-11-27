@@ -1,13 +1,16 @@
 <script>
-let name = 'World'
+
+import { user } from '../stores/AuthStore.ts';
 
 </script>
 
-<div class="container">
-    <h1>Hello, { name }!</h1>
+
+<div>
+    <h1> Hello, { $user.user.username }! </h1>
 </div>
 
 <style>
-    @import "../custom";
+
     @import "../../node_modules/bootstrap/scss/bootstrap";
+
 </style>

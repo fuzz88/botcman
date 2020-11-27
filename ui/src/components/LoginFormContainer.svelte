@@ -1,21 +1,24 @@
 <script>
 
-import { user } from '../stores/AuthStore.ts';
-
 let username = ''
 let password = ''
+let promise = Promise.resolve([]);
 
 async function getLogged() {
         const user = {'username': username, 'password': password}
-        const res = await fetch('https://gaps-apps.ru/api/botcman/auth', {
+        const res = await fetch('/api/botcman/auth', {
             method: 'POST',
+            mode: 'same-origin', // no-cors, *cors, same-origin
+            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: 'same-origin', // include, *same-origin, omit
+            headers: {
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify(user)
         });
 
-        const data = await res.json();
-
         if (res.ok) {
-            return data;
+            return res;
         } else {
             throw new Error(data);
         }
@@ -23,7 +26,7 @@ async function getLogged() {
 
 
     function handleLoginClick() {
-        let promise = getLogged();
+        promise = getLogged();
         promise.then(result => console.log(result))
         .catch(error => alert('Ошибка авторизации.\n\nПроверьте ваши логин и пароль.'))
     }
@@ -54,7 +57,8 @@ async function getLogged() {
 </div>
 
 <style>
-    @import "../custom";
+
+
     @import "../../node_modules/bootstrap/scss/bootstrap";
 
     h1 {
