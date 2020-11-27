@@ -48,9 +48,7 @@ async function getLogged() {
               </div>
 
               <button on:click={handleLoginClick} type="submit" class="btn btn-dark">Войти в панель управления</button>
-
             </form>
-            <h1>{$user}</h1>
         </div>
     </div>
 </div>

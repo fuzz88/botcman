@@ -7,6 +7,8 @@ services:
             context: .
             dockerfile: Dockerfile
         image: botcman__ui:latest
+        volumes:
+            - ./public/:/etc/nginx/html
         networks:
             - intercom
 networks:

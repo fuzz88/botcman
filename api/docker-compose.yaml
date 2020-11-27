@@ -7,6 +7,8 @@ services:
             context: .
             dockerfile: Dockerfile
         image: botcman__api:latest
+        environment:
+            - RELOAD=--reload
         networks:
             - intercom
 networks:

@@ -9,4 +9,4 @@ SECRET_KEY = config('SECRET_KEY', cast=Secret)
 
 DATABASE_URL = config('DATABASE_URL', cast=URL)
 if TESTING:
-    DATABASE_URL = "postgresql://postgres:postgres@localhost/botcman__test"
+    DATABASE_URL = "postgresql://postgres:postgres@test_postgres/botcman__test"
