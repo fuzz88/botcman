@@ -1,0 +1,6 @@
+fastapi[all]
+databases[postgresql]
+pydantic
+pyjwt
+uvicorn
+gunicorn
