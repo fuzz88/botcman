@@ -4,7 +4,7 @@ LABEL maintainer="Ivan Oschepkov <ivan@oschepkov.ru>"
 
 COPY requirements.txt /opt/
 
-RUN pip install -r /opt/requirements.txt
+RUN pip install --no-cache-dir -r /opt/requirements.txt
 
 COPY app/ /opt/app/
 COPY entrypoint.sh /opt/
