@@ -8,7 +8,7 @@ import { user } from '../stores/AuthStore.ts';
 <header>
   <!-- Fixed navbar -->
   <nav class="navbar navbar-expand-md navbar-dark sticky-top bg-dark">
-    <a class="navbar-brand" href="#"> <img src="img/box.svg"/></a>
+    <a class="navbar-brand" href="#"> <img alt="Боцман @ Коробка" src="img/box.svg"/></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>

@@ -2,7 +2,6 @@
 
 let username = ''
 let password = ''
-let promise = Promise.resolve([]);
 
 async function getLogged() {
         const user = {'username': username, 'password': password}
@@ -26,8 +25,7 @@ async function getLogged() {
 
 
     function handleLoginClick() {
-        promise = getLogged();
-        promise.then(result => console.log(result))
+        getLogged().then(result => console.log(result))
         .catch(error => alert('Ошибка авторизации.\n\nПроверьте ваши логин и пароль.'))
     }
 </script>
