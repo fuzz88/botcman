@@ -20,16 +20,16 @@ def init(app):
         backend=JWTCookieAuthBackend(),
     )
 
+    @app.post('/auth')
+    async def auth(response: Response, user_creds: models.UserCredentials):
+        api_user = await lookup_user(user_creds)
+        if api_user is not None:
+            token = jwt.encode({'user': models.AuthUser(**api_user).dict()},
+                               str(settings.SECRET_KEY), algorithm='HS256')
 
-async def auth(response: Response, user_creds: models.UserCredentials):
-    api_user = await lookup_user(user_creds)
-    if api_user is not None:
-        token = jwt.encode({'user': models.AuthUser(**api_user).dict()},
-                           str(settings.SECRET_KEY), algorithm='HS256')
-
-        response.set_cookie(key='token', value=token.decode(), max_age=60 * 60 * 24 * 10)
-        return {'detail': 'authorized'}
-    raise HTTPException(status_code=401)
+            response.set_cookie(key='token', value=token.decode(), max_age=60 * 60 * 24 * 10)
+            return {'detail': 'authorized'}
+        raise HTTPException(status_code=401)
 
 
 async def lookup_user(user_creds: models.UserCredentials):
