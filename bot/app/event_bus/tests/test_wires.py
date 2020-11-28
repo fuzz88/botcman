@@ -20,7 +20,9 @@ def is_redis_up(ip, port):
 def redis_service():
     for _ in range(10):
         if is_redis_up(TEST_REDIS["host"], TEST_REDIS["port"]):
-            return f"redis://{TEST_REDIS['host']}:{TEST_REDIS['port']}/{TEST_REDIS['db']}"
+            return (
+                f"redis://{TEST_REDIS['host']}:{TEST_REDIS['port']}/{TEST_REDIS['db']}"
+            )
         time.sleep(0.1)
     pytest.exit("you need to start test_redis service to perform test")
 

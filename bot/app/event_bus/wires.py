@@ -1,7 +1,7 @@
 import redis
 
 
-class RedisWires():
+class RedisWires:
     """ Communicates peers on event_bus via Redis Pub/Sub. """
 
     def __init__(self):
@@ -15,9 +15,9 @@ class RedisWires():
     def connect(self, url: str):
         #  if Redis is not connected, then lets connect it
         if self._connection_pool is None:
-            self._connection_pool = redis.BlockingConnectionPool.from_url(url,
-                                                                          max_connections=10,
-                                                                          timeout=5)
+            self._connection_pool = redis.BlockingConnectionPool.from_url(
+                url, max_connections=10, timeout=5
+            )
         if self._redis is None:
             self._redis = redis.Redis(connection_pool=self._connection_pool)
 

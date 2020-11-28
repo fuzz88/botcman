@@ -8,6 +8,7 @@ class BaseSerializer(ABC):
     Serialization needed to send event objects over wires.
 
     """
+
     @abstractmethod
     def serialize(self, data: Any) -> bytes:
         pass

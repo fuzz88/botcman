@@ -1,2 +1,2 @@
-class BaseWorkflow():
+class BaseWorkflow:
     pass

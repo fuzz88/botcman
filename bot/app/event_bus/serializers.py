@@ -12,10 +12,10 @@ class PickleSerializer(BaseSerializer):
         try:
             return pickle.dumps(data)
         except pickle.PicklingError:
-            raise SerializerError(f'Cant pickle data: { data }')
+            raise SerializerError(f"Cant pickle data: { data }")
 
     def deserialize(self, data: bytes) -> Any:
         try:
             return pickle.loads(data)
         except pickle.PicklingError:
-            raise SerializerError(f'Cant unpickle data: { data }')
+            raise SerializerError(f"Cant unpickle data: { data }")
