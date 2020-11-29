@@ -39,16 +39,22 @@ async function getLogged() {
         </div>
         <div class="col-sm col-md-5 col-lg-4">
             <form class="form">
-
-              <div class="form-group">
-                <input bind:value={username} type="text" class="form-control" id="login">
-              </div>
-
-              <div class="form-group">
-                <input bind:value={password} type="password" class="form-control" id="password">
-              </div>
-
-              <button on:click={handleLoginClick} type="submit" class="btn btn-dark">Войти в панель управления</button>
+                <div class="form-group">
+                    <input bind:value={username}
+                    type="text"
+                    class="form-control"
+                    id="login">
+                </div>
+                <div class="form-group">
+                    <input bind:value={password}
+                    type="password"
+                    class="form-control"
+                    id="password">
+                </div>
+                <button on:click={handleLoginClick}
+                type="submit"
+                class="btn btn-dark">Войти в панель управления
+                </button>
             </form>
         </div>
     </div>
