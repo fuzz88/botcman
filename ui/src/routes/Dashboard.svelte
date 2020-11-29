@@ -1,5 +1,12 @@
 <script>
-  import { user } from "../stores/AuthStore.ts";
+  import { replace } from "svelte-spa-router";
+
+  import { user, unauthorized_user } from "../stores/AuthStore.ts";
+
+  $: {
+    if ($user === unauthorized_user) { replace("/login"); }
+  }
+    
 </script>
 
 <style>

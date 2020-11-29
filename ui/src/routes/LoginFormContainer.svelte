@@ -1,5 +1,9 @@
 <script>
 
+import { replace } from "svelte-spa-router";
+
+import { user, unauthorized_user } from "../stores/AuthStore.ts";
+
 let username = ''
 let password = ''
 
@@ -23,11 +27,15 @@ async function getLogged() {
         }
     }
 
-
     function handleLoginClick() {
         getLogged().then(result => console.log(result))
-        .catch(error => alert('Ошибка авторизации.\n\nПроверьте ваши логин и пароль.'))
+        .catch(error => alert('Ошибка авторизации.\n\nПроверьте ваши логин и пароль.'))        
     }
+
+    $: {
+        if ($user !== unauthorized_user) { replace("/"); }
+    }
+
 </script>
 
 
