@@ -1,9 +1,5 @@
 <script>
-  import { user } from "../stores/AuthStore.ts";
 </script>
-
-<style>
-</style>
 
 <header>
   <!-- Fixed navbar -->
@@ -48,3 +44,6 @@
     </div>
   </nav>
 </header>
+
+<style>
+</style>
