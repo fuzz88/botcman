@@ -1,13 +1,13 @@
 <script>
     document.title = "Боцман -- Dashboard";
 
-    import LoginFormContainer from "./components/LoginFormContainer.svelte";
-    import Dashboard from "./components/Dashboard.svelte";
-
     export let user;
 
+    import LoginFormContainer from "./components/LoginFormContainer.svelte";
+    import DashboardContainer from "./components/DashboardContainer.svelte";
+
     const role_based_routing = {
-        administrator: Dashboard,
+        administrator: DashboardContainer,
         unauthorized: LoginFormContainer,
     };
 </script>

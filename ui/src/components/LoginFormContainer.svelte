@@ -1,33 +1,15 @@
 <script>
 
-let username = ''
-let password = ''
+import { getLogged } from "../stores/AuthStore";
 
-async function getLogged() {
-        const user = {'username': username, 'password': password}
-        const res = await fetch('/api/botcman/auth', {
-            method: 'POST',
-            mode: 'same-origin', // no-cors, *cors, same-origin
-            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-            credentials: 'same-origin', // include, *same-origin, omit
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(user)
-        });
+let username = ""
+let password = ""
 
-        if (res.ok) {
-            return res;
-        } else {
-            throw new Error(data);
-        }
-    }
+function handleLoginClick() {
+    getLogged(username, password).then(result => console.log(result))
+    .catch(error => alert('Ошибка авторизации.\n\nПроверьте ваши логин и пароль.'))
+}
 
-
-    function handleLoginClick() {
-        getLogged().then(result => console.log(result))
-        .catch(error => alert('Ошибка авторизации.\n\nПроверьте ваши логин и пароль.'))
-    }
 </script>
 
 
