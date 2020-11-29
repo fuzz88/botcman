@@ -14,28 +14,27 @@ function handleLoginClick() {
 
 
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="login_from__heading сol-sm col-md-5 col-lg-4">
+    <div class="columns">
+        <div class="text-center сol-4 col-mx-auto">
             <h1>Боцман</h1>
             <h5>система управления доставкой</h5>
-        </div>
-        <div class="col-sm col-md-5 col-lg-4">
-            <form class="form">
+
+            <form class="form p-centered">
                 <div class="form-group">
-                    <input bind:value={username}
+                <input bind:value={username}
                     type="text"
-                    class="form-control"
+                    class="form-input"
                     id="login">
                 </div>
                 <div class="form-group">
-                    <input bind:value={password}
+                <input bind:value={password}
                     type="password"
-                    class="form-control"
+                    class="form-input"
                     id="password">
                 </div>
                 <button on:click={handleLoginClick}
-                type="submit"
-                class="btn btn-dark">Войти в панель управления
+                    type="submit"
+                    class="btn btn-primary">Войти в панель управления
                 </button>
             </form>
         </div>
@@ -50,6 +49,7 @@ function handleLoginClick() {
         text-transform: uppercase;
         font-size: 4em;
         font-weight: 100;
+        margin-bottom: 0px;
     }
 
     h5 {
@@ -61,10 +61,6 @@ function handleLoginClick() {
     form {
         margin-top: 1em;
         max-width: 320px;
-    }
-
-    .login_from__heading {
-        text-align: center;
     }
 
 </style>
