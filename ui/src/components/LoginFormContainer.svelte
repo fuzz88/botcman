@@ -13,33 +13,39 @@ function handleLoginClick() {
 </script>
 
 
-<div class="container">
-    <div class="columns">
-        <div class="text-center сol-4 col-mx-auto">
+<div class="container is-full-screen">
+    <div class="row">
+        <div class="col-3 col-4-lg"></div>
+        <div class="col-6 col-4-lg text-center">
             <h1>Боцман</h1>
             <h5>система управления доставкой</h5>
-
-            <form class="form p-centered">
-                <div class="form-group">
-                <input bind:value={username}
-                    type="text"
-                    class="form-input"
-                    id="login">
-                </div>
-                <div class="form-group">
-                <input bind:value={password}
-                    type="password"
-                    class="form-input"
-                    id="password">
-                </div>
-                <button on:click={handleLoginClick}
-                    type="submit"
-                    class="btn btn-primary">Войти в панель управления
-                </button>
+            <form>
+                    <p>
+                    <input bind:value={username}
+                        type="text"
+                        class="form-input"
+                        id="login">
+                    </p>
+                    <p>
+                    <input bind:value={password}
+                        type="password"
+                        class="form-input"
+                        id="password">
+                    </p>
+                    <p>
+                    <button on:click={handleLoginClick}
+                        type="submit"
+                        class="btn btn-primary">Войти в панель управления
+                    </button>
+                    </p>
             </form>
+        </div>
+        <div class="col-3 col-4-lg">
+            
         </div>
     </div>
 </div>
+
 
 <style>
 
@@ -49,18 +55,15 @@ function handleLoginClick() {
         text-transform: uppercase;
         font-size: 4em;
         font-weight: 100;
-        margin-bottom: 0px;
+        margin-bottom: -5px;
     }
 
     h5 {
         color: #ff3e00;
         font-weight: 200;
-        font-size: 1.4em;
-    }
-
-    form {
-        margin-top: 1em;
-        max-width: 320px;
+        font-size: 1em;
+        margin-top: 0px;
+        margin-bottom: 25px;
     }
 
 </style>

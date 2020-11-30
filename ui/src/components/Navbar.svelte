@@ -1,19 +1,22 @@
 <script>
 </script>
 
-<header class="navbar bg-dark">
-  <section class="navbar-section">
-    <a href="..." class="navbar-brand mr-2">
-      <!-- <img class="m-2" alt="Боцман @ Коробка" src="img/box.svg"/> -->
+<header>
+<nav class="nav bg-dark">
+  <div class="nav-left">
+    <a href="..." class="button button-primary">Команда</a>
+    <a href="..." class="button button-primary">Задания</a>
+  </div>
+  <div class="nav-center hide-xs">
+    <a class="brand">
+      <img alt="Боцман @ Коробка" src="img/box.svg"/>
     </a>
-    <a href="..." class="btn m-2 btn-primary">Команда</a>
-    <a href="..." class="btn m-2 btn-primary">Задания</a>
-  </section>
-  <section class="navbar-section">
-    <a href="..." class="btn m-2 btn-primary">Выйти</a>
-  </section>
+  </div>
+  <div class="nav-right">
+    <a href="..." class="button button-primary">Выйти</a>
+  </div>
+</nav>
 </header>
 
 <style>
-
 </style>
