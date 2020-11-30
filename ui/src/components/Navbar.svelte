@@ -15,7 +15,7 @@
     <a href="/jobs" class="button primary" use:link use:active={{className:"bd-success"}}>Задания</a>
   </div>
   <div class="nav-center hide-xs">
-    <a class="brand">
+    <a href="/" class="brand" use:link>
       <img alt="Боцман @ Коробка" src="img/box.svg"/>
     </a>
   </div>
