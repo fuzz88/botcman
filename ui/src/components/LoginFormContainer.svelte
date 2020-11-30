@@ -1,13 +1,14 @@
 <script>
 
 import { getLogged } from "../stores/AuthStore";
+import { router } from 'tinro';
 
 let username = ""
 let password = ""
 
 function handleLoginClick() {
-    getLogged(username, password).then(result => console.log(result))
-    .catch(error => alert('Ошибка авторизации.\n\nПроверьте ваши логин и пароль.'))
+    getLogged(username, password).then(result => router.goto("/botcman/"))
+    .catch(error => alert('Ошибка авторизации.\n\nПроверьте ваши логин и пароль.'));
 }
 
 </script>
