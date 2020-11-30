@@ -13,7 +13,7 @@ const auth_cookie = readable(Cookies.get("token"), function start(set) {
     };
 });
 
-const unauthorized_user = { username: "unknown", role: "unauthorized" };
+export const unauthorized_user = { username: "unknown", role: "unauthorized" };
 
 export const user = derived(auth_cookie,
     $auth_cookie => $auth_cookie ? jwt_decode($auth_cookie)["user"] : unauthorized_user
