@@ -1,13 +1,12 @@
 <script>
 
 import { getLogged } from "../stores/AuthStore";
-import { router } from 'tinro';
 
 let username = ""
 let password = ""
 
 function handleLoginClick() {
-    getLogged(username, password).then(result => router.goto("/botcman/"))
+    getLogged(username, password).then()
     .catch(error => alert('Ошибка авторизации.\n\nПроверьте ваши логин и пароль.'));
 }
 
@@ -16,8 +15,8 @@ function handleLoginClick() {
 
 <div class="container is-full-screen">
     <div class="row">
-        <div class="col-3 col-4-lg"></div>
-        <div class="col-6 col-4-lg text-center">
+        <div class="col-3 col-4-md col-4-lg"></div>
+        <div class="col-6 col-4-md col-4-lg text-center">
             <h1>Боцман</h1>
             <h5>система управления доставкой</h5>
             <form>
@@ -41,7 +40,7 @@ function handleLoginClick() {
                     </p>
             </form>
         </div>
-        <div class="col-3 col-4-lg">
+        <div class="col-3 col-4-md col-4-lg">
             
         </div>
     </div>

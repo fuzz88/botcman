@@ -1,15 +1,31 @@
 <script>
   import { user } from "../stores/AuthStore.ts";
-  import { Route } from 'tinro';
+
+  import Router from "svelte-spa-router";
 
   import Navbar from "./Navbar.svelte";
+
+  import MainView from "./MainView.svelte";
+  import JobsView from "./JobsView.svelte";
+  import TeamView from "./TeamView.svelte";
+  import NotFound from "./NotFound.svelte";
+
+  const routes = {
+
+    "/": MainView,
+
+    "/team": TeamView,
+
+    "/jobs": JobsView,
+
+    "*": NotFound,
+}
 
 </script>
 
 <Navbar/>
 
-<Route path="/botcman/team">team</Route>
-<Route path="/botcman/jobs">jobs</Route>
+<Router { routes }/>
 
 <style>
 </style>
