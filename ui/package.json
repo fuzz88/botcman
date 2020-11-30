@@ -26,6 +26,7 @@
     "svelte": "^3.0.0",
     "svelte-check": "^1.0.0",
     "svelte-preprocess": "^4.0.0",
+    "tinro": "^0.3.7",
     "tslib": "^2.0.0",
     "typescript": "^3.9.7"
   },
