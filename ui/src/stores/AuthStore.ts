@@ -23,9 +23,7 @@ export async function getLogged(username, password) {
         const user = {'username': username, 'password': password}
         const res = await fetch('/api/botcman/auth', {
             method: 'POST',
-            mode: 'same-origin', // no-cors, *cors, same-origin
-            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-            credentials: 'same-origin', // include, *same-origin, omit
+            credentials: 'include', // include, *same-origin, omit
             headers: {
                 'Content-Type': 'application/json'
             },
