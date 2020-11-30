@@ -1,4 +1,9 @@
 <script>
+  import { logout } from "../stores/AuthStore"
+
+  function handleLogoutClick() {
+    logout();
+  }
 </script>
 
 <header>
@@ -13,7 +18,7 @@
     </a>
   </div>
   <div class="nav-right">
-    <a href="..." class="button button-primary">Выйти</a>
+    <a on:click={ handleLogoutClick } class="button button-primary">Выйти</a>
   </div>
 </nav>
 </header>

@@ -38,3 +38,7 @@ export async function getLogged(username, password) {
             throw new Error(res.toString());
         }
     }
+
+export function logout() {
+    Cookies.remove('token');
+}
