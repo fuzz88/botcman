@@ -27,5 +27,5 @@ api_users = sqlalchemy.Table(
     sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
     sqlalchemy.Column("username", sqlalchemy.String),
     sqlalchemy.Column("password", sqlalchemy.String),
-    sqlalchemy.Column("role", sqlalchemy.String),  # enum in db, actually
+    sqlalchemy.Column("role", sqlalchemy.String),
 )
