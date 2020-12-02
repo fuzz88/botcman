@@ -1,6 +1,5 @@
-databases[postgresql]
-aiogram
-pydantic
-uvloop
-ujson
+aiotg
+asyncpg
 aiohttp[speedups]
+transitions
+pydantic

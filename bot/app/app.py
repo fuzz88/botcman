@@ -1,19 +1,19 @@
 import logging
 
-from aiogram import Bot, Dispatcher, executor
+from aiotg import Bot
 
 import config
 
-from workflows import log_new_bot_user
+import workflows
 
 logging.basicConfig(level=logging.INFO)
 
+bot = Bot(api_token=config.API_TOKEN)
 
-bot = Bot(token=config.API_TOKEN)
-disp = Dispatcher(bot)
-
-log_new_bot_user.init(disp)
-
+workflows.init(bot)
 
 if __name__ == "__main__":
-    executor.start_polling(disp, skip_updates=True)
+    # import asyncio
+    # loop = asyncio.get_event_loop()
+    # print(loop.run_until_complete(bot.get_me()))
+    bot.run()

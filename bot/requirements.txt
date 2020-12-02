@@ -5,26 +5,24 @@
 #    pip-compile
 #
 aiodns==2.0.0             # via aiohttp
-aiogram==2.11.2           # via -r requirements.in
-aiohttp[speedups]==3.7.3  # via -r requirements.in, aiogram
+aiohttp[speedups]==3.7.3  # via -r requirements.in, aiosocksy, aiotg
+aiosocksy==0.1.2          # via aiotg
+aiotg==1.0.0              # via -r requirements.in
 async-timeout==3.0.1      # via aiohttp
-asyncpg==0.21.0           # via databases
+asyncpg==0.21.0           # via -r requirements.in
 attrs==20.3.0             # via aiohttp
-babel==2.9.0              # via aiogram
 brotlipy==0.7.0           # via aiohttp
 cchardet==2.1.7           # via aiohttp
-certifi==2020.11.8        # via aiogram
-cffi==1.14.3              # via brotlipy, pycares
+cffi==1.14.4              # via brotlipy, pycares
 chardet==3.0.4            # via aiohttp
-databases[postgresql]==0.4.1  # via -r requirements.in
 idna==2.10                # via yarl
 multidict==5.0.2          # via aiohttp, yarl
+pathtools==0.1.2          # via watchdog
 pycares==3.1.1            # via aiodns
 pycparser==2.20           # via cffi
-pydantic==1.7.2           # via -r requirements.in
-pytz==2020.4              # via babel
-sqlalchemy==1.3.20        # via databases
+pydantic==1.7.3           # via -r requirements.in
+six==1.15.0               # via transitions
+transitions==0.8.5        # via -r requirements.in
 typing-extensions==3.7.4.3  # via aiohttp
-ujson==4.0.1              # via -r requirements.in
-uvloop==0.14.0            # via -r requirements.in
+watchdog==0.10.4          # via aiotg
 yarl==1.6.3               # via aiohttp
