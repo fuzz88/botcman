@@ -11,15 +11,11 @@ async def get_user_data_from_api(bot: Bot, user_id: int) -> TelegramUser:
     """retrieves user data and current avatar from telegram api"""
 
     user_data = await Chat(bot, chat_id=user_id).get_chat()
-
     user_data = user_data["result"]
-
     user_data["chat_id"] = user_id
 
     if user_data.get("photo", None) is not None:
-
         file = await bot.get_file(user_data["photo"]["small_file_id"])
-
         try:
             async with bot.download_file(file["file_path"]) as response:
                 filedata = await response.read()
@@ -29,7 +25,6 @@ async def get_user_data_from_api(bot: Bot, user_id: int) -> TelegramUser:
                 user_data["profile_photo"]["filename"] = filename
         except Exception as e:
             print(e)
-
     try:
         user = TelegramUser(**user_data)
         return user
@@ -41,14 +36,17 @@ async def save_user_to_db(user: TelegramUser):
     """inserts pydantic user model into database"""
 
     conn = await asyncpg.connect(config.DATABASE_URL)
-
-    q = """INSERT INTO bot_users (username, first_name, last_name, chat_id) VALUES ($1, $2, $3, $4) RETURNING bot_users.id"""
+    q = (
+        """INSERT INTO bot_users (username, first_name, last_name, chat_id) """
+        """VALUES ($1, $2, $3, $4) RETURNING bot_users.id"""
+    )
 
     _user = user.dict()
     avatar = _user.pop("profile_photo", None)
+    #  save user data without avatar (pop it from dict if any),
     result = await conn.fetchrow(q, *_user.values())
     saved_user_id = result.get("id")
-
+    # but if there is one, save it separately
     if avatar:
         q = """INSERT INTO avatars(bin_data, filename, user_id) VALUES ($1, $2, $3)"""
         await conn.execute(q, *avatar.values(), saved_user_id)
