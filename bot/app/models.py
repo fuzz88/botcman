@@ -1,3 +1,4 @@
+from typing import Optional
 import sqlalchemy
 import pydantic
 
@@ -11,7 +12,6 @@ bot_users = sqlalchemy.Table(
     sqlalchemy.Column("first_name", sqlalchemy.String(length=256)),
     sqlalchemy.Column("last_name", sqlalchemy.String(length=256)),
     sqlalchemy.Column("chat_id", sqlalchemy.BigInteger),
-    sqlalchemy.Column("ava_id", sqlalchemy.Integer),
 )
 
 avatars = sqlalchemy.Table(
@@ -25,15 +25,15 @@ avatars = sqlalchemy.Table(
 
 
 class BotUserWithoutAvatar(pydantic.BaseModel):
-    username: str
-    first_name: str
-    last_name: str
+    username: Optional[str]
+    first_name: Optional[str]
+    last_name: Optional[str]
     chat_id: int
 
 
 class BotUser(pydantic.BaseModel):
-    username: str
-    first_name: str
-    last_name: str
+    username: Optional[str]
+    first_name: Optional[str]
+    last_name: Optional[str]
     chat_id: int
-    profile_photo: dict
+    profile_photo: Optional[dict]
