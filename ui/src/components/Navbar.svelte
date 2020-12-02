@@ -20,6 +20,7 @@
     </a>
   </div>
   <div class="nav-right">
+    <!-- svelte-ignore a11y-missing-attribute -->
     <a on:click={ handleLogoutClick } class="button primary">Выйти</a>
   </div>
 </nav>

@@ -1,6 +1,4 @@
 <script>
-  import { user } from "../stores/AuthStore.ts";
-
   import Router from "svelte-spa-router";
 
   import Navbar from "./Navbar.svelte";
