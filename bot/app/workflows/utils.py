@@ -1,4 +1,5 @@
 import databases
+from sqlalchemy import sql
 from aiogram import types
 import aiohttp
 import config
@@ -38,23 +39,40 @@ async def get_user_data(disp, message: types.Message):
         except Exception as e:
             print(e)
 
-        try:
-            user = BotUser(**user_data)
-        except pydantic.ValidationError as e:
-            print(e.json())
-
-    return user
+    try:
+        user = BotUser(**user_data)
+        return user
+    except pydantic.ValidationError as e:
+        print(e.json())
 
 
 async def save_user_to_db(user):
+
+    if await is_known_user(user):
+        return
+
     await database.connect()
+
     user_query = bot_users.insert()
     result = await database.execute(
         query=user_query,
         values=BotUserWithoutAvatar(**user.dict()).dict(),
     )
-    ava_query = avatars.insert()
-    result = await database.execute(
-        query=ava_query, values=user.profile_photo | {"user_id": result}
-    )
+    if user.profile_photo != {}:
+        ava_query = avatars.insert()
+        result = await database.execute(
+            query=ava_query, values=user.profile_photo | {"user_id": result}
+        )
+
     await database.disconnect()
+
+
+async def is_known_user(user):
+
+    await database.connect()
+
+    q = sql.select([bot_users.c.id]).where(bot_users.c.chat_id == user.chat_id)
+    result = await database.fetch_one(query=q)
+
+    await database.disconnect()
+    return result is not None
