@@ -1,7 +1,7 @@
 <div class="container">
     <dir class="row">
         <div class="col">
-            Jobs
+            Settings
         </div>
     </dir>
 </div>

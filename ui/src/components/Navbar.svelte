@@ -20,6 +20,8 @@
     </a>
   </div>
   <div class="nav-right">
+    <a href="/logs" class="button primary hide-xs hide-sm" use:link use:active={{className:"bd-success"}}>События</a>
+    <a href="/settings" class="button primary" use:link use:active={{className:"bd-success"}}>Настройки</a>
     <!-- svelte-ignore a11y-missing-attribute -->
     <a on:click={ handleLogoutClick } class="button primary">Выйти</a>
   </div>

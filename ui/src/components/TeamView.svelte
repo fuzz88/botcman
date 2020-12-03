@@ -1,7 +1,10 @@
+<script>
+    import TeamTable from "./TeamTable.svelte";
+</script>
 <div class="container">
-    <dir class="row">
+    <div class="row">
         <div class="col">
-            Team Table
+            <TeamTable/>
         </div>
-    </dir>
+    </div>
 </div>

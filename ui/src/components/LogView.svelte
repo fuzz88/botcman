@@ -1,7 +1,6 @@
 <div class="container">
     <dir class="row">
         <div class="col">
-            Jobs
-        </div>
+            Logs
     </dir>
 </div>

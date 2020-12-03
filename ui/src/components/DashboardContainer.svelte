@@ -7,25 +7,33 @@
   import JobsView from "./JobsView.svelte";
   import TeamView from "./TeamView.svelte";
   import NotFound from "./NotFound.svelte";
+  import SettingsView from "./SettingsView.svelte";
+  import LogView from "./LogView.svelte";
+  import TeamAddFormContainer from "./TeamAddFormContainer.svelte";
+  import TeamEditFormContainer from "./TeamEditFormContainer.svelte";
 
   const routes = {
-
     "/": MainView,
 
     "/team": TeamView,
 
+    "/team/add": TeamAddFormContainer,
+
+    "/team/edit": TeamEditFormContainer,
+
     "/jobs": JobsView,
 
+    "/logs": LogView,
+
+    "/settings": SettingsView,
+
     "*": NotFound,
-}
-
+  };
 </script>
-
-<Navbar/>
-
-<Router { routes }/>
 
 <style>
 </style>
 
+<Navbar />
 
+<Router {routes} />
