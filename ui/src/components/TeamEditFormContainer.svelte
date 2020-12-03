@@ -1,7 +1,7 @@
 <script>
 </script>
 <div class="container">
-    <h4>Изменить данные мувера</h4>
+    <h4>Изменить данные</h4>
     <dir class="row is-full-screen">
         <div class="col">
             <form>
