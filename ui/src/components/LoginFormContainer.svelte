@@ -18,7 +18,7 @@ function handleLoginClick() {
         <div class="col-3 col-4-xs col-4-md col-4-lg"></div>
         <div class="col-6 col-4-xs col-4-md col-4-lg text-center">
             <h1>Боцман</h1>
-            <h5>система управления доставкой</h5>
+            <h5>система управления перевозками</h5>
             <form>
                     <p>
                     <input bind:value={username}
