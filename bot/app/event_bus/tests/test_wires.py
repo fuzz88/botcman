@@ -2,7 +2,7 @@ import time
 import pytest
 import socket
 
-from app.event_bus.wires import RedisWires
+from event_bus.wires import RedisWires
 
 TEST_REDIS = {"host": "localhost", "port": 8091, "db": 0}
 
