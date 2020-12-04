@@ -1,13 +1,16 @@
+import functools
 import asyncpg
 import pydantic
 
-from aiotg import Bot, Chat
+from aiotg import Chat
+from async_lru import alru_cache
 
 import config
 from models import TelegramUser
 
 
-async def get_user_data_from_api(bot: Bot, user_id: int) -> TelegramUser:
+@alru_cache
+async def get_user_data_from_api(bot: Chat, user_id: int) -> TelegramUser:
     """retrieves user data and current avatar from telegram api"""
 
     user_data = await Chat(bot, chat_id=user_id).get_chat()
@@ -54,6 +57,7 @@ async def save_user_to_db(user: TelegramUser):
     await conn.close()
 
 
+@alru_cache
 async def check_user_in_db(user_id: int):
     """checks if matching user_id (chat_id) database record exists"""
 
@@ -65,3 +69,10 @@ async def check_user_in_db(user_id: int):
     await conn.close()
 
     return row is not None
+
+
+def emojize(s: str) -> str:
+    EMOJIS = {"::hand_waves::": u"\U0001F44B", "::confused::": u"\U0001F615"}
+    for template, value in EMOJIS.items():
+        s = s.replace(template, value)
+    return s
