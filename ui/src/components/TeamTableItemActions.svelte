@@ -1,4 +1,5 @@
 <script>
+    export let code;
     import { link } from "svelte-spa-router";
     import copy from "copy-text-to-clipboard";
     import Fa from "svelte-fa";
@@ -9,9 +10,10 @@
     } from "@fortawesome/free-solid-svg-icons";
 
     function handleShowCodeClick() {
-        copy("10983513");
+        copy(code.toString());
         alert("Код для регистрации скопирован в буфер обмена.");
     }
+
 </script>
 
 <style>

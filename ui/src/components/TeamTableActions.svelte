@@ -5,4 +5,4 @@
 <style>
 </style>
 
-<a href="/team/add" use:link><button class="button outline primary">Добавить мувера</button></a>
+<a href="/team/add" use:link class="button outline primary">Добавить мувера</a>

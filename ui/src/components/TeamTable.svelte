@@ -1,6 +1,6 @@
 <script>
 
-import { getTeamMembers } from "../stores/TeamStore";
+import { team_members } from "../stores/TeamStore";
 import TeamTableActions from "./TeamTableActions.svelte";
 import TeamTableItem from "./TeamTableItem.svelte";
 
@@ -27,7 +27,7 @@ import TeamTableItem from "./TeamTableItem.svelte";
         <th></th>
     </thead>
     <tbody>
-        {#each getTeamMembers() as person}
+        {#each $team_members as person}
             <TeamTableItem {...person}/>
         {/each }
     </tbody>
