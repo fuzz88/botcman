@@ -1,6 +1,6 @@
 fastapi[all]
-gino
 pydantic
+databases[postgresql]
 pyjwt
 uvicorn
 gunicorn
