@@ -1,6 +1,7 @@
 import asyncio
 from transitions import Machine
 from aiotg import Chat
+import functools
 
 from models import TelegramUser
 from data.loader import load
@@ -43,6 +44,7 @@ class MoverRegistration(object):
     def __init__(self, chat: Chat, user: TelegramUser, active_registrations: dict):
 
         self.chat = chat
+        self.send_md_text = functools.partial(self.chat.send_text, **{"parse_mode": "MarkdownV2"})
         self.user = user
         self.active_registrations = active_registrations
 
@@ -67,8 +69,7 @@ class MoverRegistration(object):
         )
 
     def on_waiting_code(self):
-        self.chat.send_text("please send me code", **{"parse_mode": "MarkdownV2"})
-        self.chat.send_text("i am waiting", **{"parse_mode": "MarkdownV2"})
+        self.send_md_text(emojize(load("./data/messages/waiting_code.md")))
 
     def on_code(self, chat: Chat, match):
         self.process_code(match.group(0))
@@ -80,9 +81,7 @@ class MoverRegistration(object):
             self.bad_code()
 
     def on_success_reg(self):
-        self.chat.send_text(
-            emojize(load("./data/messages/good_code.md").format(name="Ivan")), **{"parse_mode": "MarkdownV2"}
-        )
+        self.send_md_text(emojize(load("./data/messages/good_code.md").format(name="Ivan")))
         self.chat.bot._commands.remove(
             (
                 r"^[0-9]{12}$",
@@ -92,9 +91,7 @@ class MoverRegistration(object):
         self.finish()
 
     def on_fail_reg(self):
-        self.chat.send_text(
-            emojize(load("./data/messages/bad_code.md")), **{"parse_mode": "MarkdownV2"}
-        )
+        self.send_md_text(emojize(load("./data/messages/bad_code.md")))
         self.chat.bot._commands.remove(
             (
                 r"^[0-9]{12}$",
