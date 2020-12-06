@@ -1,4 +1,4 @@
 #!/bin/sh
 
 echo "Starting app.py with $(python -V)..."
-python /opt/app/app.py
+PYTHONPATH="/opt/app/" python /opt/app/app.py
