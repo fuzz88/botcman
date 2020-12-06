@@ -1,14 +1,13 @@
-FROM python:3.9-alpine
+FROM python:3.9-buster
 
 LABEL maintainer="Ivan Oschepkov <ivan@oschepkov.ru>"
 
 COPY requirements.txt /opt/
 
-RUN apk add --no-cache --virtual .build-deps gcc musl-dev \
-	&& pip install -r /opt/requirements.txt \
-	&& apk del .build-deps
+RUN pip install --no-cache -r /opt/requirements.txt
 
 COPY app/ /opt/app/
 COPY entrypoint.sh /opt/
+WORKDIR /opt/app/
 
-CMD ["sh", "/opt/entrypoint.sh"]
+CMD ["bash", "/opt/entrypoint.sh"]
