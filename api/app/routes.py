@@ -1,4 +1,6 @@
+import random
 from typing import List
+
 
 from fastapi import Depends
 
@@ -17,7 +19,17 @@ def init(app):
     @app.post("/team/add")
     @auth.secure()
     async def add_team_member(new_mover: models.Mover, current_user=Depends(auth.current_user)):
-        query = models.temp_movers.insert(new_mover.dict())
+        nm = new_mover.dict()
+        nm.pop("id", None)
+        query = models.temp_movers.insert(
+            nm | {"status": "регистрация", "code": random.randint(100000000, 999999999)}
+        )
+        return await db.database.execute(query)
+
+    @app.delete("/team/delete/{id}")
+    @auth.secure()
+    async def delete_team_member(id: int, current_user=Depends(auth.current_user)):
+        query = models.temp_movers.update().where(models.temp_movers.c.id == id).values(status="удалён")
         return await db.database.execute(query)
 
     @app.get("/team", response_model=List[models.Mover])

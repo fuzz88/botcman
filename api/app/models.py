@@ -1,6 +1,6 @@
 import sqlalchemy
 from typing import Optional
-from pydantic import BaseModel
+from pydantic import BaseModel, validator
 
 from db import metadata
 
@@ -23,12 +23,25 @@ class AuthUser(BaseModel):
 
 
 class Mover(BaseModel):
+    id: Optional[int]
     fullname: str
     experience: int
     stamina: int
     activity: int
     code: Optional[int]
     status: Optional[str]
+
+    @validator("fullname")
+    def must_contain_3_words(cls, v):
+        if len(v.split(" ")) != 3:
+            raise ValueError("должно состоять из трёх слов")
+        return v.title()
+
+    @validator("experience", "stamina", "activity")
+    def must_be_number(cls, v):
+        if not (isinstance(v, int) and v > 0):
+            raise ValueError("должно быть положительным числом")
+        return v
 
 
 temp_movers = sqlalchemy.Table(
