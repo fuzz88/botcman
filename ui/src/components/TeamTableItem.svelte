@@ -6,6 +6,7 @@
     export let activity;
     export let status;
     export let code;
+    export let id
 
 </script>
 
@@ -20,5 +21,5 @@
 <td>{ experience }</td>
 <td>{ stamina }</td>
 <td>{ status }</td>
-<td class=" action-buttons text-right"><TeamTableItemActions code={code}/></td>
+<td class=" action-buttons text-right"><TeamTableItemActions code={code} id={id} status={status}/></td>
 </tr>
