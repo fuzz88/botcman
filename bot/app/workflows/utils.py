@@ -1,3 +1,4 @@
+import re
 import functools
 import asyncpg
 import pydantic
@@ -71,8 +72,54 @@ async def check_user_in_db(user_id: int):
     return row is not None
 
 
+async def perform_registration(code: int, chat_id: int):
+    conn = await asyncpg.connect(config.DATABASE_URL)
+
+    q = """SELECT * FROM temp_movers WHERE temp_movers.code = $1"""
+    mover = await conn.fetchrow(q, code)
+
+    q = """SELECT * FROM bot_users WHERE chat_id = $1"""
+    bot_user = await conn.fetchrow(q, chat_id)
+
+    q = """UPDATE temp_movers SET bot_id = $1 WHERE id = $2"""
+    await conn.execute(q, bot_user.get("id"), mover.get("id"))
+
+    q = """UPDATE temp_movers SET status = $1 WHERE id = $2"""
+    await conn.execute(q, "готов к работе", mover.get("id"))
+
+    await conn.close()
+    return mover
+
+
 def emojize(s: str) -> str:
-    EMOJIS = {"::hand_waves::": u"\U0001F44B", "::confused::": u"\U0001F615"}
+    EMOJIS = {"::hand_waves::": "\U0001F44B", "::confused::": "\U0001F615"}
     for template, value in EMOJIS.items():
         s = s.replace(template, value)
     return s
+
+
+def escape_markdown(text: str, version: int = 2, entity_type: str = None) -> str:
+    """
+    Helper function to escape telegram markup symbols.
+    Args:
+        text (:obj:`str`): The text.
+        version (:obj:`int` | :obj:`str`): Use to specify the version of telegrams Markdown.
+            Either ``1`` or ``2``. Defaults to ``1``.
+        entity_type (:obj:`str`, optional): For the entity types ``PRE``, ``CODE`` and the link
+            part of ``TEXT_LINKS``, only certain characters need to be escaped in ``MarkdownV2``.
+            See the official API documentation for details. Only valid in combination with
+            ``version=2``, will be ignored else.
+    """
+    if int(version) == 1:
+        escape_chars = r"_*`["
+    elif int(version) == 2:
+        if entity_type in ["pre", "code"]:
+            escape_chars = r"\`"
+        elif entity_type == "text_link":
+            escape_chars = r"\)"
+        else:
+            escape_chars = r"[]()~`>#+-=|{}.!"
+    else:
+        raise ValueError("Markdown version must be either 1 or 2!")
+
+    return re.sub(f"([{re.escape(escape_chars)}])", r"\\\1", text)
