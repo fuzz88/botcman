@@ -81,11 +81,8 @@ async def perform_registration(code: int, chat_id: int):
     q = """SELECT * FROM bot_users WHERE chat_id = $1"""
     bot_user = await conn.fetchrow(q, chat_id)
 
-    q = """UPDATE temp_movers SET bot_id = $1 WHERE id = $2"""
-    await conn.execute(q, bot_user.get("id"), mover.get("id"))
-
-    q = """UPDATE temp_movers SET status = $1 WHERE id = $2"""
-    await conn.execute(q, "готов к работе", mover.get("id"))
+    q = """UPDATE temp_movers SET bot_id = $1, status = $2 WHERE id = $3"""
+    await conn.execute(q, bot_user.get("id"), "готов к работе", mover.get("id"))
 
     await conn.close()
     return mover
