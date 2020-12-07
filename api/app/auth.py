@@ -1,6 +1,7 @@
 import functools
+from typing import Optional
 
-from fastapi import Request, Response, HTTPException
+from fastapi import Request, Response, HTTPException, WebSocket, status
 
 from starlette.middleware.authentication import AuthenticationMiddleware
 from starlette.authentication import (
@@ -33,9 +34,7 @@ def init(app):
                 algorithm="HS256",
             )
 
-            response.set_cookie(
-                key="token", value=token.decode(), max_age=60 * 60 * 24 * 10
-            )
+            response.set_cookie(key="token", value=token.decode(), max_age=60 * 60 * 24 * 10)
             return {"detail": "authorized"}
         raise HTTPException(status_code=401)
 
@@ -61,9 +60,7 @@ class JWTCookieAuthBackend(AuthenticationBackend):
             return
 
         try:
-            decoded = jwt.decode(
-                token, str(settings.SECRET_KEY), algorithms="HS256", verify=True
-            )
+            decoded = jwt.decode(token, str(settings.SECRET_KEY), algorithms="HS256", verify=True)
         except jwt.exceptions.InvalidTokenError:
             raise AuthenticationError("Invalid token")
 
@@ -105,3 +102,12 @@ class UserRole(SimpleUser):
     @property
     def get_role(self):
         return self.role
+
+
+async def get_user(websocket: WebSocket):
+    token = websocket.cookies.get("token", None)
+    try:
+        decoded = jwt.decode(token, str(settings.SECRET_KEY), algorithms="HS256", verify=True)
+    except (jwt.exceptions.InvalidTokenError):
+        await websocket.close(code=status.WS_1008_POLICY_VIOLATION)
+        raise AuthenticationError("Invalid token")
