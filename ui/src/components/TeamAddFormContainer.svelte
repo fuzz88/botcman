@@ -24,7 +24,6 @@
     $: {
         has_error = []
         errors.forEach(error => has_error[error["loc"][1]] = error["msg"])
-        console.log(has_error);
     }
 
 </script>
