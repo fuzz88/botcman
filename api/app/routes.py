@@ -63,4 +63,4 @@ def init(app):
 
             while connected:
                 async with connection.transaction():
-                    pass
+                    await asyncio.sleep(0.1)
