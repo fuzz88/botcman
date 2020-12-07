@@ -9,6 +9,4 @@ RUN pip install --no-cache-dir -r /opt/requirements.txt
 COPY app/ /opt/app/
 COPY entrypoint.sh /opt/
 
-EXPOSE 8000
-
 CMD ["sh", "/opt/entrypoint.sh"]
