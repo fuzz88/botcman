@@ -26,7 +26,6 @@
 
     $: {
         is_ready = status === "готов к работе";
-        console.log(is_ready);
     }
 </script>
 

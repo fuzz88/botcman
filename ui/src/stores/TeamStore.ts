@@ -54,6 +54,5 @@ export async function deleteTeamMember(id) {
 
     if (resp.status == 422) {
         const data = await resp.json();
-        console.log(data["detail"]);
     };
 };
