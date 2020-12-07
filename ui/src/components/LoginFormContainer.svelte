@@ -5,7 +5,8 @@ import { getLogged } from "../stores/AuthStore";
 let username = ""
 let password = ""
 
-function handleLoginClick() {
+function handleLoginClick(event) {
+    event.preventDefault();
     getLogged(username, password).then()
     .catch(error => alert('Ошибка авторизации.\n\nПроверьте ваши логин и пароль.'));
 }
