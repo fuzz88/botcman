@@ -1,20 +1,30 @@
-import { readable } from "svelte/store";
+import { derived, readable } from "svelte/store";
 
 
+export const wss_event_trigger = readable({ event: { name: null } }, function start(set) {
+    set({ event: { name: "team_members_update" } });
+    var socket = new WebSocket("wss://gaps-apps.ru:443/api/botcman/events");
+    
+    socket.onmessage = function (event) {
+        set(JSON.parse(event.data));
+    };
 
-export const team_members = readable([], function start(set) {
-    const interval = setInterval(function () {
+    return function stop () {
+        socket.close();
+    }
+});
+
+
+export const team_members = derived(wss_event_trigger, ($wss_event_trigger, set) => {
+    if ($wss_event_trigger.event.name == "team_members_update") {
         const res = fetch("/api/botcman/team", {
             method: "GET",
             credentials: 'include'
         }).then(result => result.json())
             .then(r => set(r));
-    }, 1000);
-
-    return function stop() {
-        clearInterval(interval);
     };
-});
+    return () => {};
+}, []);
 
 
 export async function newTeamMember(fullname, experience, stamina, activity) {
