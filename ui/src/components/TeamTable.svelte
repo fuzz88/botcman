@@ -4,11 +4,33 @@ import { team_members } from "../stores/TeamStore";
 import TeamTableActions from "./TeamTableActions.svelte";
 import TeamTableItem from "./TeamTableItem.svelte";
 
+let custom_sort = function (a, b) {
+    return a.name < b.name ? -1 : (a.name > b.name ? 1 : 0)
+}
+
+function handleSortClick (event) {
+    let property = event.srcElement.dataset.id;
+    custom_sort = function (a, b) {
+        return a[property] < b[property] ? -1 : (a[property] > b[property] ? 1 : 0)
+    }
+}
+
+function handleSortDblClick (event) {
+    let property = event.srcElement.dataset.id;
+    custom_sort = function (a, b) {
+        return a[property] > b[property] ? -1 : (a[property] < b[property] ? 1 : 0)
+    }
+}
+
 </script>
 
 <style>
     .action-buttons {
         margin-top: 1rem;
+    }
+
+    th {
+        cursor: pointer;
     }
 </style>
 
@@ -19,15 +41,15 @@ import TeamTableItem from "./TeamTableItem.svelte";
 </div>
 <table>
     <thead>
-        <th>Ф.И.О.</th>
-        <th>Активность</th>
-        <th>Опыт</th>
-        <th>Стамина</th>
-        <th>Статус</th>
+        <th on:click={handleSortClick} on:dblclick={handleSortDblClick} data-id="fullname">Ф.И.О.</th>
+        <th on:click={handleSortClick} on:dblclick={handleSortDblClick} data-id="activity">Активность</th>
+        <th on:click={handleSortClick} on:dblclick={handleSortDblClick} data-id="experience">Опыт</th>
+        <th on:click={handleSortClick} on:dblclick={handleSortDblClick} data-id="stamina">Стамина</th>
+        <th on:click={handleSortClick} on:dblclick={handleSortDblClick} data-id="status">Статус</th>
         <th></th>
     </thead>
     <tbody>
-        {#each $team_members as person}
+        {#each $team_members.sort(custom_sort) as person}
             <TeamTableItem {...person}/>
         {/each }
     </tbody>
