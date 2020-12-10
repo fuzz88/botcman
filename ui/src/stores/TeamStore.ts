@@ -27,13 +27,13 @@ export const team_members = derived(wss_event_trigger, ($wss_event_trigger, set)
 }, []);
 
 
-export async function newTeamMember(fullname, experience, stamina, activity) {
+export async function newTeamMember(fullname, reliability, stamina, experience) {
 
     const new_member = {
         fullname: fullname,
-        experience: experience,
+        reliability: reliability,
         stamina: stamina,
-        activity: activity,
+        experience: experience,
     }
 
     const resp = await fetch("/api/botcman/team/add", {

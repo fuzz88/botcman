@@ -3,7 +3,7 @@
     export let fullname;
     export let experience;
     export let stamina;
-    export let activity;
+    export let reliability;
     export let status;
     export let code;
     export let id
@@ -17,7 +17,7 @@
 </style>
 <tr>
 <td>{ fullname }</td>
-<td>{ activity }</td>
+<td>{ reliability }</td>
 <td>{ experience }</td>
 <td>{ stamina }</td>
 <td>{ status }</td>

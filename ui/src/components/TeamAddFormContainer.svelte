@@ -4,7 +4,7 @@
     let fullname;
     let experience;
     let stamina;
-    let activity;
+    let reliability;
 
     let errors = [];
     let has_error;
@@ -12,7 +12,7 @@
     import { newTeamMember } from "../stores/TeamStore";
 
     async function handleNewTeamMemberClick () {
-        errors = await newTeamMember(fullname, experience, stamina, activity);
+        errors = await newTeamMember(fullname, experience, stamina, reliability);
         errors = errors === undefined ? [] : errors;
         
         if (errors.length == 0) {
@@ -66,13 +66,13 @@
                         placeholder="32" />
                 </p>
                 <p>
-                    <label class:bg-error={has_error["activity"]} for="activity">Активность</label>
-                    <small>{has_error["activity"] === undefined ? "" : has_error["activity"]}</small>
+                    <label class:bg-error={has_error["reliability"]} for="reliability">Надёжность</label>
+                    <small>{has_error["reliability"] === undefined ? "" : has_error["reliability"]}</small>
                     <input
-                        class:has_error={has_error["activity"]}
-                        bind:value={activity}
+                        class:has_error={has_error["reliability"]}
+                        bind:value={reliability}
                         type="text"
-                        id="activity"
+                        id="reliability"
                         placeholder="21" />
                 </p>
             </form>

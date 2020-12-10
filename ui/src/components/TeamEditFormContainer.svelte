@@ -21,8 +21,8 @@
                     <input type="text" id="stamina" placeholder="32" />
                 </p>
                 <p>
-                    <label for="activity">Активность</label>
-                    <input type="text" id="activity" placeholder="21" />
+                    <label for="reliability">Надёжность</label>
+                    <input type="text" id="reliability" placeholder="21" />
                 </p>
             </form>
             <p class="text-right">

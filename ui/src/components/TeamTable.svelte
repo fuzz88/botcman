@@ -42,7 +42,7 @@ function handleSortDblClick (event) {
 <table>
     <thead>
         <th on:click={handleSortClick} on:dblclick={handleSortDblClick} data-id="fullname">Ф.И.О.</th>
-        <th on:click={handleSortClick} on:dblclick={handleSortDblClick} data-id="activity">Активность</th>
+        <th on:click={handleSortClick} on:dblclick={handleSortDblClick} data-id="reliability">Надёжность</th>
         <th on:click={handleSortClick} on:dblclick={handleSortDblClick} data-id="experience">Опыт</th>
         <th on:click={handleSortClick} on:dblclick={handleSortDblClick} data-id="stamina">Стамина</th>
         <th on:click={handleSortClick} on:dblclick={handleSortDblClick} data-id="status">Статус</th>
