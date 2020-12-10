@@ -10,6 +10,6 @@ gunicorn --chdir /opt/app -b 0.0.0.0:8081 -k  uvicorn.workers.UvicornWorker --re
 
 else
 
-gunicorn --chdir /opt/app -w 2 -b 0.0.0.0:8081 -k  uvicorn.workers.UvicornWorker -log-level warning app:app
+gunicorn --chdir /opt/app -b 0.0.0.0:8081 -k  uvicorn.workers.UvicornWorker -log-level warning app:app
 
 fi
