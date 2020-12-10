@@ -71,19 +71,18 @@ class MoverRegistration(object):
     def on_code(self, chat: Chat, match):
         self.process_code(match.group(0))
 
-    def on_code_received(self, code=None):
-        if code is not None:
-            loop = asyncio.get_event_loop()
-            user = asyncio.run_coroutine_threadsafe(perform_registration(int(code), int(self.chat.id)), loop)
+    def on_code_received(self, code):
+        def check_user(future):
+            self.user = future.result()
+            if self.user is None:
+                self.bad_code()
+            else:
+                self.good_code()
 
-            def check_user(fut):
-                self.user = fut.result()
-                if self.user is not None:
-                    self.good_code()
-                else:
-                    self.bad_code()
-
-            user.add_done_callback(check_user)
+        loop = asyncio.get_event_loop()
+        asyncio.run_coroutine_threadsafe(
+            perform_registration(int(code), int(self.chat.id)), loop
+        ).add_done_callback(check_user)
 
     def on_success_reg(self):
         self.send_md_text(

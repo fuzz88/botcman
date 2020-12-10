@@ -78,6 +78,8 @@ async def perform_registration(code: int, chat_id: int):
     q = """SELECT * FROM temp_movers WHERE temp_movers.code = $1"""
     mover = await conn.fetchrow(q, code)
 
+    if mover is not None:
+
     q = """SELECT * FROM bot_users WHERE chat_id = $1"""
     bot_user = await conn.fetchrow(q, chat_id)
 
@@ -85,6 +87,7 @@ async def perform_registration(code: int, chat_id: int):
     await conn.execute(q, bot_user.get("id"), "готов к работе", mover.get("id"))
 
     await conn.close()
+
     return mover
 
 
