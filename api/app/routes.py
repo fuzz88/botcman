@@ -5,13 +5,13 @@ from typing import List
 
 
 from fastapi import Depends, WebSocket
-from websockets.exceptions import ConnectionClosedOK, ConnectionClosedError
+from websockets import ConnectionClosedError, ConnectionClosedOK
 
 import models
 import auth
 import db
 
-logging.basicConfig(level=logging.INFO)
+
 log = logging.getLogger("routes")
 
 
@@ -44,23 +44,29 @@ def init(app):
 
     @app.websocket("/events")
     async def websocket_endpoint(websocket: WebSocket, user=Depends(auth.get_user)):
+        """
+        TODO:
+            - make websockets handling as separate service, without uvicorn and fastapi.
+        """
         await websocket.accept()
         connected = True
 
-        def callback(ws):
+        event_q = asyncio.Queue()
+
+        def callback(q):
             def cb(connection, pid, channel, payload):
-                try:
-                    asyncio.ensure_future(
-                        ws.send_json({"event": {"name": "team_members_update", "pid": pid}})
-                    )
-                except (ConnectionClosedOK, ConnectionClosedError):
-                    connected = False
-                    log.info(f"Client disconnected {ws}")
+                q.put_nowait({"event": {"name": "team_members_update", "pid": pid}})
             return cb
 
         async with db.notify_pool.pool.acquire() as connection:
-            await connection.add_listener("botcman__events", callback(websocket))
+            cb = callback(event_q)
+            await connection.add_listener("botcman__events", cb)
 
             while connected:
-                async with connection.transaction():
-                    await asyncio.sleep(0.1)
+                event = await event_q.get()
+                try:
+                    await websocket.send_json(event)
+                except (ConnectionClosedOK, ConnectionClosedError):
+                    log.info("websocket connection was closed. cleanup.")
+                    await connection.remove_listener("botcman__events", cb)
+                    connected = False
