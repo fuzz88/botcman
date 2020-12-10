@@ -30,9 +30,9 @@ def init(app):
         query = models.temp_movers.insert(nm | {"status": "регистрация", "code": random.randint(100000000, 999999999)})
         return await db.database.execute(query)
 
-    @app.delete("/team/delete/{id}")
+    @app.delete("/team/archive/{id}")
     @auth.secure()
-    async def delete_team_member(id: int, current_user=Depends(auth.current_user)):
+    async def archive_team_member(id: int, current_user=Depends(auth.current_user)):
         query = models.temp_movers.update().where(models.temp_movers.c.id == id).values(status="в архиве")
         return await db.database.execute(query)
 
