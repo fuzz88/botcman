@@ -27,7 +27,7 @@ class Mover(BaseModel):
     fullname: str
     experience: int
     stamina: int
-    activity: int
+    reliability: int
     code: Optional[int]
     status: Optional[str]
 
@@ -37,10 +37,10 @@ class Mover(BaseModel):
             raise ValueError("должно состоять из трёх слов")
         return v.title()
 
-    @validator("experience", "stamina", "activity")
+    @validator("experience", "stamina", "reliability")
     def must_be_number(cls, v):
-        if not (isinstance(v, int) and v > 0):
-            raise ValueError("должно быть положительным числом")
+        if not (isinstance(v, int) and v >= 0):
+            raise ValueError("должно быть положительным числом, или 0")
         return v
 
 
@@ -51,7 +51,7 @@ temp_movers = sqlalchemy.Table(
     sqlalchemy.Column("fullname", sqlalchemy.String),
     sqlalchemy.Column("stamina", sqlalchemy.Integer),
     sqlalchemy.Column("experience", sqlalchemy.Integer),
-    sqlalchemy.Column("activity", sqlalchemy.Integer),
+    sqlalchemy.Column("reliability", sqlalchemy.Integer),
     sqlalchemy.Column("code", sqlalchemy.Integer),
     sqlalchemy.Column("bot_id", sqlalchemy.Integer),
     sqlalchemy.Column("status", sqlalchemy.String),
