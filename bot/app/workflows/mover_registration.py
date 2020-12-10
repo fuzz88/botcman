@@ -18,7 +18,7 @@ def init(bot):
             return
 
         if active_registrations.get(chat.id, None) is not None:
-            chat.send_text("already in process", **{"parse_mode": "MarkdownV2"})
+            chat.send_text("Вы уже в процессе регистрации. Невозможно выполнить команду.", **{"parse_mode": "MarkdownV2"})
             return
 
         active_registrations[chat.id] = True
