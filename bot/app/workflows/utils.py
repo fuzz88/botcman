@@ -80,11 +80,11 @@ async def perform_registration(code: int, chat_id: int):
 
     if mover is not None:
 
-    q = """SELECT * FROM bot_users WHERE chat_id = $1"""
-    bot_user = await conn.fetchrow(q, chat_id)
+        q = """SELECT * FROM bot_users WHERE chat_id = $1"""
+        bot_user = await conn.fetchrow(q, chat_id)
 
-    q = """UPDATE temp_movers SET bot_id = $1, status = $2 WHERE id = $3"""
-    await conn.execute(q, bot_user.get("id"), "готов к работе", mover.get("id"))
+        q = """UPDATE temp_movers SET bot_id = $1, status = $2 WHERE id = $3"""
+        await conn.execute(q, bot_user.get("id"), "готов к работе", mover.get("id"))
 
     await conn.close()
 
@@ -101,14 +101,6 @@ def emojize(s: str) -> str:
 def escape_markdown(text: str, version: int = 2, entity_type: str = None) -> str:
     """
     Helper function to escape telegram markup symbols.
-    Args:
-        text (:obj:`str`): The text.
-        version (:obj:`int` | :obj:`str`): Use to specify the version of telegrams Markdown.
-            Either ``1`` or ``2``. Defaults to ``1``.
-        entity_type (:obj:`str`, optional): For the entity types ``PRE``, ``CODE`` and the link
-            part of ``TEXT_LINKS``, only certain characters need to be escaped in ``MarkdownV2``.
-            See the official API documentation for details. Only valid in combination with
-            ``version=2``, will be ignored else.
     """
     if int(version) == 1:
         escape_chars = r"_*`["
