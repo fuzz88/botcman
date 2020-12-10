@@ -8,6 +8,8 @@
     export let code;
     export let id
 
+    export let hidden;
+
 </script>
 
 <style>
@@ -15,11 +17,11 @@
         min-width: 100px;
     }
 </style>
-<tr>
+<tr class:is-hidden={hidden && status == "в архиве"}>
 <td>{ fullname }</td>
 <td>{ reliability }</td>
 <td>{ experience }</td>
 <td>{ stamina }</td>
 <td>{ status }</td>
-<td class=" action-buttons text-right"><TeamTableItemActions code={code} id={id} status={status}/></td>
+<td class="action-buttons text-right"><TeamTableItemActions code={code} id={id} status={status}/></td>
 </tr>

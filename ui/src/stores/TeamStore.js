@@ -52,9 +52,9 @@ export async function newTeamMember(fullname, reliability, stamina, experience) 
 };
 
 
-export async function deleteTeamMember(id) {
+export async function archiveTeamMember(id) {
 
-    const resp = await fetch("/api/botcman/team/delete/" + id, {
+    const resp = await fetch("/api/botcman/team/archive/" + id, {
         method: "DELETE",
         credentials: 'include', // include, *same-origin, omit
         headers: {

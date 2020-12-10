@@ -15,15 +15,15 @@
         faArchive,
     } from "@fortawesome/free-solid-svg-icons";
 
-    import { deleteTeamMember } from "../stores/TeamStore";
+    import { archiveTeamMember } from "../stores/TeamStore";
 
     function handleShowCodeClick() {
         copy(code.toString());
         alert("Код для регистрации скопирован в буфер обмена.");
     }
 
-    function handleDeleteMemberClick() {
-        deleteTeamMember(id);
+    function handleArchiveMemberClick() {
+        archiveTeamMember(id);
     }
 
     $: {
@@ -53,7 +53,7 @@
             size="1.25x"
             icon={faPen} /></a>
     <!-- svelte-ignore a11y-missing-attribute -->
-    <a class:disabled_link={is_archived} on:click={handleDeleteMemberClick}><Fa
+    <a class:disabled_link={is_archived} on:click={handleArchiveMemberClick}><Fa
             size="1.25x"
             icon={faArchive} /></a>
 </div>
