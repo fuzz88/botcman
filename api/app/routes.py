@@ -33,7 +33,7 @@ def init(app):
     @app.delete("/team/delete/{id}")
     @auth.secure()
     async def delete_team_member(id: int, current_user=Depends(auth.current_user)):
-        query = models.temp_movers.update().where(models.temp_movers.c.id == id).values(status="удалён")
+        query = models.temp_movers.update().where(models.temp_movers.c.id == id).values(status="в архиве")
         return await db.database.execute(query)
 
     @app.get("/team", response_model=List[models.Mover])
