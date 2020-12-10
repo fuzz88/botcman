@@ -105,6 +105,12 @@ class UserRole(SimpleUser):
 
 
 async def get_user(websocket: WebSocket):
+    """
+    TODO:
+        - test this
+        - return user?
+        - rename
+    """
     token = websocket.cookies.get("token", None)
     try:
         decoded = jwt.decode(token, str(settings.SECRET_KEY), algorithms="HS256", verify=True)
