@@ -4,6 +4,8 @@
     export let status;
 
     let is_ready;
+    let is_archived;
+    
     import { link } from "svelte-spa-router";
     import copy from "copy-text-to-clipboard";
     import Fa from "svelte-fa";
@@ -26,6 +28,7 @@
 
     $: {
         is_ready = status === "готов к работе";
+        is_archived = status === "в архиве"
     }
 </script>
 
@@ -50,7 +53,7 @@
             size="1.25x"
             icon={faPen} /></a>
     <!-- svelte-ignore a11y-missing-attribute -->
-    <a on:click={handleDeleteMemberClick}><Fa
+    <a class:disabled_link={is_archived} on:click={handleDeleteMemberClick}><Fa
             size="1.25x"
             icon={faArchive} /></a>
 </div>
