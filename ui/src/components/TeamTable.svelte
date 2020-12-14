@@ -32,6 +32,10 @@
                 : 0;
         };
     }
+
+    function filter(person) {
+        return $is_hide_archived && person.status === "в архиве"
+    }
 </script>
 
 <style>
@@ -85,7 +89,9 @@
     </thead>
     <tbody>
         {#each $team_members.sort(custom_sort) as person}
-            <TeamTableItem {...person} hidden={$is_hide_archived}/>
+        {#if !filter(person)}
+            <TeamTableItem {...person} />
+        {/if}
         {/each}
     </tbody>
 </table>

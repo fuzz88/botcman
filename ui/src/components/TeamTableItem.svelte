@@ -6,9 +6,7 @@
     export let reliability;
     export let status;
     export let code;
-    export let id
-
-    export let hidden;
+    export let id;
 
 </script>
 
@@ -17,7 +15,7 @@
         min-width: 100px;
     }
 </style>
-<tr class:is-hidden={hidden && status == "в архиве"}>
+<tr>
 <td>{ fullname }</td>
 <td>{ reliability }</td>
 <td>{ experience }</td>
