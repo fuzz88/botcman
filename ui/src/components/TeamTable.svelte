@@ -62,6 +62,7 @@
         {#each header as th}        
         <th on:click={handleHeaderClick} data-id={ th.id } data-order="1">
             { th.name }
+        </th>
         {/each}
     </thead>
     <tbody>
