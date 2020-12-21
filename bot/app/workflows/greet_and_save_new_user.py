@@ -1,3 +1,6 @@
+import config
+
+from .utils import get_user_data_from_api, save_user_to_db, check_user_in_db, escape_markdown, emojize
 from .data.loader import load
 
 def init(bot):

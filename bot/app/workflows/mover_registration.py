@@ -1,9 +1,12 @@
 import asyncio
-from transitions import Machine
-from aiotg import Chat
 import functools
 
+from transitions import Machine
+from aiotg import Chat
+
 from models import TelegramUser
+
+from .utils import get_user_data_from_api, emojize, perform_registration, escape_markdown
 from .data.loader import load
 
 
