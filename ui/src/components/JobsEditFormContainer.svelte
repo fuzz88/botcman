@@ -84,6 +84,7 @@
                         <option value="новая">новая</option>
                         <option value="завершена">завершена</option>
                         <option value="в архиве">в архиве</option>
+                        <option value="опрос чата">опрос чата</option>
                     </select>
                 </p>
                 <p>

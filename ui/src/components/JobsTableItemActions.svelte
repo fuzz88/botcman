@@ -26,14 +26,20 @@
         }
     }
 
-    async function handleEditJobClick(event) {
+    async function handleEditJobClick() {
         push("/jobs/edit/" + id);
     }
 
+    async function handlePickTeamClick() {
+        push("/jobs/pick/" + id);
+    }
+
     let is_archived;
+    let is_done;
 
     $: {
         is_archived = status === "в архиве";
+        is_done = status === "завершена";
     }
 </script>
 
@@ -53,11 +59,11 @@
 
 <div class="actions">
     <!-- svelte-ignore a11y-missing-attribute -->
-    <a><Fa size="1.25x" icon={faUserFriends} /></a>
+    <a on:click={handlePickTeamClick} class:disabled_link={is_done} ><Fa size="1.25x" icon={faUserFriends} /></a>
     <!-- svelte-ignore a11y-missing-attribute -->
     <a on:click={handleEditJobClick}><Fa size="1.25x" icon={faPen} /></a>
     <!-- svelte-ignore a11y-missing-attribute -->
-    <a class:disabled_link={is_archived} on:click={handleArchiveJobClick}><Fa
+    <a on:click={handleArchiveJobClick} class:disabled_link={is_archived} ><Fa
             size="1.25x"
             icon={faArchive} /></a>
 </div>

@@ -15,9 +15,9 @@
     async function handleNewTeamMemberClick() {
         errors = await newTeamMember(
             fullname,
-            experience,
+            reliability,
             stamina,
-            reliability
+            experience,
         );
         errors = errors === undefined ? [] : errors;
 

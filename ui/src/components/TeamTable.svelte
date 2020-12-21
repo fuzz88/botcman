@@ -4,7 +4,6 @@
         is_striped_tables,
         is_hide_archived,
     } from "../stores/SettingsStore";
-    import TeamTableActions from "./TeamTableActions.svelte";
     import TeamTableItem from "./TeamTableItem.svelte";
 
     let sort_params = ["experience", 1];
@@ -36,33 +35,24 @@
         { id: "fullname", name: "Ф.И.О" },
         { id: "reliability", name: "Надёжность" },
         { id: "experience", name: "Опыт" },
-        { id: "stamina", name: "Выносливость" },
+        { id: "stamina", name: "Стамина" },
         { id: "status", name: "Статус" },
     ];
 </script>
 
 <style>
-    .action-buttons {
-        margin-top: 1rem;
-    }
-
     th:hover {
         cursor: pointer;
         color: red;
     }
 </style>
 
-<div class="row action-buttons">
-    <div class="col">
-        <TeamTableActions />
-    </div>
-</div>
 <table class:striped={$is_striped_tables}>
     <thead>
-        {#each header as th}        
-        <th on:click={handleHeaderClick} data-id={ th.id } data-order="1">
-            { th.name }
-        </th>
+        {#each header as th}
+            <th on:click={handleHeaderClick} data-id={th.id} data-order="1">
+                {th.name}
+            </th>
         {/each}
     </thead>
     <tbody>

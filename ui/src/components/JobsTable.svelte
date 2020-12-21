@@ -43,21 +43,13 @@
 </script>
 
 <style>
-    .action-buttons {
-        margin-top: 1rem;
-    }
-
     th:hover {
         cursor: pointer;
         color: red;
     }
 </style>
 
-<div class="row action-buttons">
-    <div class="col">
-        <JobsTableActions />
-    </div>
-</div>
+
 <table class:striped={$is_striped_tables}>
     <thead>
         {#each header as th}
