@@ -12,7 +12,7 @@
 <nav class="nav bg-dark">
   <div class="nav-left">
     <a href="/team" class="button primary" use:link use:active={{className:"bd-success"}}>Команда</a>
-    <a href="/jobs" class="button primary" use:link use:active={{className:"bd-success"}}>Задания</a>
+    <a href="/jobs" class="button primary" use:link use:active={{className:"bd-success"}}>Заявки</a>
   </div>
   <div class="nav-center hide-xs">
     <a href="/" class="brand" use:link>
