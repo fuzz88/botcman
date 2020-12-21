@@ -1,7 +1,11 @@
+<script>
+    import JobsTable from "./JobsTable.svelte";
+</script>
+
 <div class="container">
-    <dir class="row">
+    <div class="row">
         <div class="col">
-            Jobs
+            <JobsTable />
         </div>
-    </dir>
+    </div>
 </div>

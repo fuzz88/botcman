@@ -36,6 +36,7 @@
     .actions {
         display: flex;
         justify-content: space-evenly;
+        max-width: 175px;
     }
 
     .disabled_link {
