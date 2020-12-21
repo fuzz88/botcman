@@ -114,3 +114,10 @@ export async function editJob(id, ext_id, manager, status, chat_message, brigadi
     };
 
 }
+
+export async function runJob(id) {
+    const resp = await fetch("/api/botcman/jobs/run/" + id, {
+        method: "GET",
+        credentials: 'include',
+    })
+}
