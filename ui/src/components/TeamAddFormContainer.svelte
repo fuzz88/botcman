@@ -1,6 +1,6 @@
 <script>
     import { push } from "svelte-spa-router";
-    
+
     let fullname;
     let experience;
     let stamina;
@@ -10,22 +10,26 @@
     let has_error;
 
     import { newTeamMember } from "../stores/TeamStore";
+    import InputValidatorLabelHelper from "./InputValidatorLabelHelper.svelte";
 
-    async function handleNewTeamMemberClick () {
-        errors = await newTeamMember(fullname, experience, stamina, reliability);
+    async function handleNewTeamMemberClick() {
+        errors = await newTeamMember(
+            fullname,
+            experience,
+            stamina,
+            reliability
+        );
         errors = errors === undefined ? [] : errors;
-        
+
         if (errors.length == 0) {
             push("/team");
         }
-
     }
 
     $: {
-        has_error = []
-        errors.forEach(error => has_error[error["loc"][1]] = error["msg"])
+        has_error = [];
+        errors.forEach((error) => (has_error[error["loc"][1]] = error["msg"]));
     }
-
 </script>
 
 <style>
@@ -37,8 +41,8 @@
         <div class="col">
             <form>
                 <p>
-                    <label class:bg-error={has_error["fullname"]} for="fullname">Ф.И.О.</label>
-                    <small>{has_error["fullname"] === undefined ? "" : has_error["fullname"]}</small>
+                    <label for="fullname">Ф.И.О.</label>
+                    <InputValidatorLabelHelper error={has_error['fullname']} />
                     <input
                         bind:value={fullname}
                         type="text"
@@ -46,30 +50,31 @@
                         placeholder="Иванов Иван Иванович" />
                 </p>
                 <p>
-                    <label class:bg-error={has_error["experience"]} for="experience">Опыт</label>
-                    <small>{has_error["experience"] === undefined ? "" : has_error["experience"]}</small>
+                    <label for="experience">Опыт</label>
+                    <InputValidatorLabelHelper
+                        error={has_error['experience']} />
                     <input
-                        class:has_error={has_error["experience"]}
+                        class:has_error={has_error['experience']}
                         bind:value={experience}
                         type="text"
-                        id="exprerience"
+                        id="experience"
                         placeholder="16" />
                 </p>
                 <p>
-                    <label class:bg-error={has_error["stamina"]} for="stamina">Стамина</label>
-                    <small>{has_error["stamina"] === undefined ? "" : has_error["stamina"]}</small>
+                    <label for="stamina">Стамина</label>
+                    <InputValidatorLabelHelper error={has_error['stamina']} />
                     <input
-                        class:has_error={has_error["stamina"]}
+                        class:has_error={has_error['stamina']}
                         bind:value={stamina}
                         type="text"
                         id="stamina"
                         placeholder="32" />
                 </p>
                 <p>
-                    <label class:bg-error={has_error["reliability"]} for="reliability">Надёжность</label>
-                    <small>{has_error["reliability"] === undefined ? "" : has_error["reliability"]}</small>
+                    <label for="reliability">Надёжность</label>
+                    <InputValidatorLabelHelper error={has_error['reliability']} />
                     <input
-                        class:has_error={has_error["reliability"]}
+                        class:has_error={has_error['reliability']}
                         bind:value={reliability}
                         type="text"
                         id="reliability"
@@ -77,7 +82,9 @@
                 </p>
             </form>
             <p class="text-right">
-                <button on:click={handleNewTeamMemberClick} class="button outline primary">Сохранить</button>
+                <button
+                    on:click={handleNewTeamMemberClick}
+                    class="button outline primary">Сохранить</button>
             </p>
         </div>
     </dir>
