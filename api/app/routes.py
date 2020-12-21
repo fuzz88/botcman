@@ -98,30 +98,27 @@ def init(app):
     @auth.secure()
     async def archive_jobs(id: int, current_user=Depends(auth.current_user)):
         return await db.database.execute(models.jobs.update().where(models.jobs.c.id == id).values(status="в архиве"))
+
+    @app.get("/team/list", response_model=List[models.Mover])
     @auth.secure()
-    async def read_api_users(current_user=Depends(auth.current_user)):
-        query = models.api_users.select()
-        return await db.database.fetch_all(query)
+    async def get_all_team_members(current_user=Depends(auth.current_user)):
+        return await db.database.fetch_all(models.movers.select())
 
     @app.post("/team/add")
     @auth.secure()
     async def add_team_member(new_mover: models.Mover, current_user=Depends(auth.current_user)):
         nm = new_mover.dict()
         nm.pop("id", None)
-        query = models.temp_movers.insert(nm | {"status": "регистрация", "code": random.randint(100000000, 999999999)})
-        return await db.database.execute(query)
+        return await db.database.execute(
+            models.movers.insert(nm | {"status": "регистрация", "code": random.randint(100000000, 999999999)})
+        )
 
     @app.delete("/team/archive/{id}")
     @auth.secure()
     async def archive_team_member(id: int, current_user=Depends(auth.current_user)):
-        query = models.temp_movers.update().where(models.temp_movers.c.id == id).values(status="в архиве")
-        return await db.database.execute(query)
-
-    @app.get("/team", response_model=List[models.Mover])
-    @auth.secure()
-    async def get_all_team_members(current_user=Depends(auth.current_user)):
-        query = models.temp_movers.select()
-        return await db.database.fetch_all(query)
+        return await db.database.execute(
+            models.movers.update().where(models.movers.c.id == id).values(status="в архиве")
+        )
 
     @app.websocket("/events")
     async def websocket_endpoint(websocket: WebSocket, user=Depends(auth.get_user)):
