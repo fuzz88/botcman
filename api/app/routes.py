@@ -100,6 +100,16 @@ def init(app):
     async def archive_jobs(id: int, current_user=Depends(auth.current_user)):
         return await db.database.execute(models.jobs.update().where(models.jobs.c.id == id).values(status="в архиве"))
 
+    @app.get("/jobs/run/{id}")
+    @auth.secure()
+    async def run_job(id: int, current_user=Depends(auth.current_user)):
+        status = await db.database.fetch_val(
+            models.jobs.select().where(models.jobs.c.id == id).with_only_columns([models.jobs.c.status])
+        )
+        #  TODO: where to place is_new
+        if status == "новая":
+            await db.database.execute(models.jobs.update().where(models.jobs.c.id == id).values(status="опрос чата"))
+
     @app.get("/team/list", response_model=List[models.Mover])
     @auth.secure()
     async def get_all_team_members(current_user=Depends(auth.current_user)):
