@@ -4,13 +4,12 @@ import asyncpg
 import pydantic
 
 from aiotg import Chat
-from async_lru import alru_cache
 
 import config
 from models import TelegramUser
 
 
-@alru_cache
+
 async def get_user_data_from_api(bot: Chat, user_id: int) -> TelegramUser:
     """retrieves user data and current avatar from telegram api"""
 
@@ -58,7 +57,6 @@ async def save_user_to_db(user: TelegramUser):
     await conn.close()
 
 
-@alru_cache
 async def check_user_in_db(user_id: int):
     """checks if matching user_id (chat_id) database record exists"""
 

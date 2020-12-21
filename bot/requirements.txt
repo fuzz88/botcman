@@ -8,7 +8,6 @@ aiodns==2.0.0             # via aiohttp
 aiohttp[speedups]==3.7.3  # via -r requirements.in, aiosocksy, aiotg
 aiosocksy==0.1.2          # via aiotg
 aiotg==1.0.0              # via -r requirements.in
-async-lru==1.0.2          # via -r requirements.in
 async-timeout==3.0.1      # via aiohttp
 asyncpg==0.21.0           # via -r requirements.in
 attrs==20.3.0             # via aiohttp

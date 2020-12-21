@@ -3,4 +3,3 @@ asyncpg
 aiohttp[speedups]
 transitions
 pydantic
-async_lru
