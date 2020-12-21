@@ -11,6 +11,8 @@
   import LogView from "./LogView.svelte";
   import TeamAddFormContainer from "./TeamAddFormContainer.svelte";
   import TeamEditFormContainer from "./TeamEditFormContainer.svelte";
+  import JobsAddFormContainer from "./JobsAddFormContainer.svelte";
+  import JobsEditFormContainer from "./JobsEditFormContainer.svelte";
 
   const routes = {
     "/": MainView,
@@ -22,6 +24,10 @@
     "/team/edit": TeamEditFormContainer,
 
     "/jobs": JobsView,
+
+    "/jobs/add": JobsAddFormContainer,
+
+    "/jobs/edit/:id": JobsEditFormContainer,
 
     "/logs": LogView,
 
