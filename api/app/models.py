@@ -44,7 +44,24 @@ class Mover(BaseModel):
         return v
 
 
-temp_movers = sqlalchemy.Table(
+class Job(BaseModel):
+    id: Optional[int]
+    ext_id: int
+    manager: str
+    chat_message: str
+    brigadier_message: str
+    mover_message: str
+    courier_message: str
+    brigade: Optional[str]
+    status: str
+
+class JobInList(BaseModel):
+    id: int
+    ext_id: int
+    manager: str
+    brigadier: Optional[str]
+    brigade: Optional[str]
+    status: str
     "temp_movers",
     metadata,
     sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
