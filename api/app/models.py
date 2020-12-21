@@ -62,6 +62,9 @@ class JobInList(BaseModel):
     brigadier: Optional[str]
     brigade: Optional[str]
     status: str
+
+
+movers = sqlalchemy.Table(
     "temp_movers",
     metadata,
     sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
@@ -72,6 +75,41 @@ class JobInList(BaseModel):
     sqlalchemy.Column("code", sqlalchemy.Integer),
     sqlalchemy.Column("bot_id", sqlalchemy.Integer),
     sqlalchemy.Column("status", sqlalchemy.String),
+)
+
+jobs = sqlalchemy.Table(
+    "temp_jobs",
+    metadata,
+    sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
+    sqlalchemy.Column("ext_id", sqlalchemy.Integer),
+    sqlalchemy.Column("manager_id", sqlalchemy.Integer, sqlalchemy.ForeignKey("managers.id")),
+    sqlalchemy.Column("brigade_id", sqlalchemy.Integer, sqlalchemy.ForeignKey("temp_brigades.id")),
+    sqlalchemy.Column("messages_id", sqlalchemy.Integer, sqlalchemy.ForeignKey("temp_messages.id")),
+    sqlalchemy.Column("status", sqlalchemy.String),
+)
+
+messages = sqlalchemy.Table(
+    "temp_messages",
+    metadata,
+    sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
+    sqlalchemy.Column("chat_message", sqlalchemy.String),
+    sqlalchemy.Column("brigadier_message", sqlalchemy.String),
+    sqlalchemy.Column("mover_message", sqlalchemy.String),
+    sqlalchemy.Column("courier_message", sqlalchemy.String),
+)
+
+managers = sqlalchemy.Table(
+    "managers",
+    metadata,
+    sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
+    sqlalchemy.Column("name", sqlalchemy.String),
+)
+
+brigades = sqlalchemy.Table(
+    "temp_brigades",
+    metadata,
+    sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
+    sqlalchemy.Column("brigade", sqlalchemy.dialects.postgresql.JSONB),
 )
 
 
@@ -101,30 +139,4 @@ avatars = sqlalchemy.Table(
     sqlalchemy.Column("user_id", sqlalchemy.Integer),
     sqlalchemy.Column("filename", sqlalchemy.String),
     sqlalchemy.Column("bin_data", sqlalchemy.Binary),
-)
-
-movers = sqlalchemy.Table(
-    "movers",
-    metadata,
-    sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
-    sqlalchemy.Column("fullname", sqlalchemy.String),
-    sqlalchemy.Column("bot_user_id", sqlalchemy.Integer),
-)
-
-movers_stats = sqlalchemy.Table(
-    "movers_stats",
-    metadata,
-    sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
-    sqlalchemy.Column("mover_id", sqlalchemy.Integer),
-    sqlalchemy.Column("stamina", sqlalchemy.Integer),
-    sqlalchemy.Column("experience", sqlalchemy.Integer),
-    sqlalchemy.Column("activity", sqlalchemy.Integer),
-)
-
-mover_code = sqlalchemy.Table(
-    "mover_code",
-    metadata,
-    sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
-    sqlalchemy.Column("code", sqlalchemy.Integer),
-    sqlalchemy.Column("mover_id", sqlalchemy.Integer),
 )
