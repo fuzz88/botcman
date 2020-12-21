@@ -3,9 +3,6 @@ import { writable } from "svelte/store";
 const stored__is_striped_tables = localStorage.getItem("is_striped_tables");
 const stored__is_hide_archived = localStorage.getItem("is_hide_archived");
 
-console.log(stored__is_hide_archived);
-console.log(stored__is_striped_tables);
-
 export const is_striped_tables = writable(stored__is_striped_tables === "true");
 
 is_striped_tables.subscribe(value => {
