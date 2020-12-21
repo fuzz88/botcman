@@ -38,7 +38,7 @@
                                         name="checkbox"
                                         type="checkbox"
                                         bind:checked={$is_hide_archived} />
-                                    Скрывать заархивированных муверов
+                                    Скрывать архив
                                 </label>
                             </p>
                         </li>
