@@ -4,8 +4,7 @@ from aiotg import Chat
 import functools
 
 from models import TelegramUser
-from data.loader import load
-from workflows.utils import get_user_data_from_api, emojize, perform_registration, escape_markdown
+from .data.loader import load
 
 
 active_registrations = {}
@@ -66,7 +65,7 @@ class MoverRegistration(object):
         )
 
     def on_waiting_code(self):
-        self.send_md_text(escape_markdown(emojize(load("./data/messages/waiting_code.md"))))
+        self.send_md_text(escape_markdown(emojize(load("messages/waiting_code.md"))))
 
     def on_code(self, chat: Chat, match):
         self.process_code(match.group(0))
@@ -86,12 +85,12 @@ class MoverRegistration(object):
 
     def on_success_reg(self):
         self.send_md_text(
-            escape_markdown(emojize(load("./data/messages/good_code.md").format(name=self.user.get("fullname"))))
+            escape_markdown(emojize(load("messages/good_code.md").format(name=self.user.get("fullname"))))
         )
         self.finish()
 
     def on_fail_reg(self):
-        self.send_md_text(escape_markdown(emojize(load("./data/messages/bad_code.md"))))
+        self.send_md_text(escape_markdown(emojize(load("messages/bad_code.md"))))
         self.finish()
 
     def on_finish(self):
