@@ -6,10 +6,10 @@
         <div class="col">
             <form>
                 <p>
-                    <label for="name">Ф.И.О.</label>
+                    <label for="fullname">Ф.И.О.</label>
                     <input
                         type="text"
-                        id="name"
+                        id="fullname"
                         placeholder="Иванов Иван Иванович" />
                 </p>
                 <p>
