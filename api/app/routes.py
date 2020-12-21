@@ -1,6 +1,7 @@
 import random
 import logging
 import asyncio
+import json
 from typing import List
 
 
@@ -133,7 +134,12 @@ def init(app):
 
         def callback(q):
             def cb(connection, pid, channel, payload):
-                q.put_nowait({"event": {"name": "team_members_update", "pid": pid}})
+                p = json.loads(payload)
+                if p["table"] == "temp_movers":
+                    q.put_nowait({"event": {"name": "team_members_update", "pid": pid}})
+                if p["table"] == "temp_jobs":
+                    q.put_nowait({"event": {"name": "jobs_update", "pid": pid}})
+
             return cb
 
         async with db.notify_pool.pool.acquire() as connection:
