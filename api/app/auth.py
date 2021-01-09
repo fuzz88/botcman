@@ -29,9 +29,7 @@ def init(app):
         api_user = await lookup_user(user_creds)
         if api_user is not None:
             token = jwt.encode(
-                {"user": models.AuthUser(**api_user).dict()},
-                str(settings.SECRET_KEY),
-                algorithm="HS256",
+                {"user": models.AuthUser(**api_user).dict()}, str(settings.SECRET_KEY), algorithm="HS256"
             )
 
             response.set_cookie(key="token", value=token.decode(), max_age=60 * 60 * 24 * 10)
@@ -39,20 +37,21 @@ def init(app):
         raise HTTPException(status_code=401)
 
 
-async def lookup_user(user_creds: models.UserCredentials):
-    query = (
-        models.api_users.select()
-        .where(models.api_users.c.username == user_creds.username)
-        .where(models.api_users.c.password == user_creds.password)
+async def lookup_user(user_creds: models.UserCredentials) -> object:
+    # idea for integration test:
+    # test fetch_one returns None
+    return db.database.fetch_one(
+        (
+            models.api_users.select()
+            .where(models.api_users.c.username == user_creds.username)
+            .where(models.api_users.c.password == user_creds.password)
+        )
     )
-    user = await db.database.fetch_one(query)
-    if user:
-        return user
-    else:
-        return None
 
 
 class JWTCookieAuthBackend(AuthenticationBackend):
+    # fastapi middleware
+
     async def authenticate(self, request):
         token = request.cookies.get("token", None)
 
@@ -69,18 +68,24 @@ class JWTCookieAuthBackend(AuthenticationBackend):
         return AuthCredentials(["authenticated"]), UserRole(username, role)
 
 
+class UserRole(SimpleUser):
+    def __init__(self, username: str, role: str) -> None:
+        self.username = username
+        self.role = role
+
+    @property
+    def get_role(self):
+        return self.role
+
+
 async def current_user(request: Request):
-    """ Request handler dependency"""
+    # request handler dependency.
+    # when dependency loaded as Depend() argument, the auth cookie is checked internally on each request.
     return request.user
 
 
 def secure():
-    """
-    Request handler decorator.
-
-    Decorated handler needs auth cookie to return 200
-
-    """
+    # decoration of fastapi request handler.
 
     def wrapper(func):
         @functools.wraps(func)
@@ -94,26 +99,13 @@ def secure():
     return wrapper
 
 
-class UserRole(SimpleUser):
-    def __init__(self, username: str, role: str) -> None:
-        self.username = username
-        self.role = role
-
-    @property
-    def get_role(self):
-        return self.role
-
-
-async def get_user(websocket: WebSocket):
-    """
-    TODO:
-        - test this
-        - return user?
-        - rename
-    """
-    token = websocket.cookies.get("token", None)
+async def check_coockie(websocket: WebSocket):
+    # fast api request handler dependency.
+    # checks auth coockie for websocket request handler.
     try:
-        decoded = jwt.decode(token, str(settings.SECRET_KEY), algorithms="HS256", verify=True)
+        decoded = jwt.decode(
+            websocket.cookies.get("token", None), str(settings.SECRET_KEY), algorithms="HS256", verify=True
+        )
     except (jwt.exceptions.InvalidTokenError):
         await websocket.close(code=status.WS_1008_POLICY_VIOLATION)
         raise AuthenticationError("Invalid token")
