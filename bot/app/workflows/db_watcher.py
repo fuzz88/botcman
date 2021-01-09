@@ -13,9 +13,7 @@ log = logging.getLogger(__name__)
 
 
 async def main():
-    """
-    receives and processes postgres notifications.
-    """
+
     event_q = asyncio.Queue()
     db = await get_db()
 
@@ -36,5 +34,5 @@ async def main():
 
 
 def run():
-    log.debug("database watcher is going to run...")
+    log.debug("db_watcher is going to run...")
     asyncio.run(main())

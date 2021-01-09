@@ -4,13 +4,14 @@ import pydantic
 
 from aiotg import Chat
 
-
 from models import TelegramUser
 from .db import get_db
 from .bot import movers_chat
 
 
 async def process_event(event):
+    # processes events from db_watcher.
+
     event = json.loads(event)
     if event["table"] == "temp_jobs":
         if event["row"]["status"] == "опрос чата":
@@ -24,71 +25,62 @@ async def get_jobs_msg(job_id, msg_type):
                 """SELECT temp_messages.chat_message FROM temp_jobs JOIN temp_messages """
                 """ON temp_messages.id = temp_jobs.messages_id WHERE temp_jobs.id = $1;"""
             ),
-            job_id
+            job_id,
         )
 
 
-async def get_user_data_from_api(bot: Chat, user_id: int) -> TelegramUser:
-    """
-    retrieves user data and current avatar from telegram api
-    """
-    user_data = await Chat(bot, chat_id=user_id).get_chat()
-    user_data = user_data["result"]
+async def получить_инфу_об_отправителе_от_апи_телеграмма(bot: Chat, user_id: int) -> TelegramUser:
+    # получаем на вход интерфейс для работы с Telegram API и идентификатор пользователя Телеграм.
+
+    # получаем информацию о пользователе и ссылку на его аватарку.
+
+    # скачиваем аватарку, собираем полученные данные в объект TelegramUser, валидируем, возвращаем.
+    # если данные валидировать не удалось, то возвращаем None (ничего не возвращаем).
+
+    # запрашиваем информацию о пользователе из телеграм апи.
+    user_data = await Chat(bot, chat_id=user_id).get_chat()["result"]
     user_data["chat_id"] = user_id
 
+    # проверяем наличие аватарки
     if user_data.get("photo", None) is not None:
-        file = await bot.get_file(user_data["photo"]["small_file_id"])
+        file = await bot.get_file(
+            user_data["photo"]["small_file_id"]
+        )  # запрашиваем версию аватарки с низким разрешением
         try:
+            # пытаемся скачать
             async with bot.download_file(file["file_path"]) as response:
-                filedata = await response.read()
+                filedata = await response.read()  # скачали,
                 filename = file["file_path"].split("/")[1]
-                user_data["profile_photo"] = {}
+                user_data["profile_photo"] = {}  # подготавливаем к сохранению в базу данных
                 user_data["profile_photo"]["bin_data"] = filedata
                 user_data["profile_photo"]["filename"] = filename
         except Exception as e:
             print(e)
     try:
+        # собираем в виде модели pydantic
         user = TelegramUser(**user_data)
+        # и возвращаем
         return user
     except pydantic.ValidationError as e:
+        # что-то не так с данными или моделью.
         print(e.json())
 
 
-async def save_user_to_db(user: TelegramUser):
-    """
-    inserts pydantic user model into database
-    """
+async def сохранить_инфу_о_пользователе_в_базу_данных(user: TelegramUser):
+    # inserts pydantic model into database
     async with (await get_db()).pool.acquire() as conn:
-        _user = user.dict()
-        avatar = _user.pop("profile_photo", None)
-        #  save user data without avatar (pop it from dict if any),
-        result = await conn.fetchrow(
-            (
-                """INSERT INTO bot_users (username, first_name, last_name, chat_id) """
-                """VALUES ($1, $2, $3, $4) RETURNING bot_users.id"""
-            ),
-            *_user.values(),
+        await user.save(conn)  # using dependency injection of asyncpg
+
+
+async def есть_ли_у_нас_в_базе_такой_пользователь(id: int):
+    # если пользователь есть в базе данных, то возвращаем True, иначе False.
+    async with (await get_db()).pool.acquire() as conn:
+        return (
+            await conn.fetchrow("""SELECT bot_users.id FROM bot_users WHERE bot_users.chat_id = $1""", id) is not None
         )
-        saved_user_id = result.get("id")
-        # but if there is one, save it separately
-        if avatar:
-            await conn.execute(
-                """INSERT INTO avatars(bin_data, filename, user_id) VALUES ($1, $2, $3)""",
-                *avatar.values(),
-                saved_user_id,
-            )
 
 
-async def check_user_in_db(user_id: int):
-    """
-    checks if matching user_id (chat_id) database record exists
-    """
-    async with (await get_db()).pool.acquire() as conn:
-        row = await conn.fetchrow("""SELECT bot_users.id FROM bot_users WHERE bot_users.chat_id = $1""", user_id)
-        return row is not None
-
-
-async def perform_registration(code: int, chat_id: int):
+async def выполнить_регистрацию_пользователя(code: int, chat_id: int) -> object:
     async with (await get_db()).pool.acquire() as conn:
         mover = await conn.fetchrow("""SELECT * FROM temp_movers WHERE temp_movers.code = $1""", code)
         if mover is not None:
@@ -110,9 +102,12 @@ def emojize(s: str) -> str:
 
 
 def escape_markdown(text: str, version: int = 2, entity_type: str = None) -> str:
-    """
-    Helper function to escape telegram markup symbols.
-    """
+    # helper function
+
+    # escapes telegram markup symbols in string.
+
+    # grabbed from internet.
+
     if int(version) == 1:
         escape_chars = r"_*`["
     elif int(version) == 2:

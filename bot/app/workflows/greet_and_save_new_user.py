@@ -1,16 +1,21 @@
 import config
 
-from .utils import get_user_data_from_api, save_user_to_db, check_user_in_db, escape_markdown, emojize
+from .utils import (
+    получить_инфу_об_отправителе_от_апи_телеграмма,
+    сохранить_инфу_о_пользователе_в_базу_данных,
+    есть_ли_у_нас_в_базе_такой_пользователь,
+    escape_markdown,
+    emojize,
+)
 from .data.loader import load
+
 
 def init(bot):
     @bot.command(r"/start")
-    async def greet_and_save_new_user(chat, match):
+    async def приветствуем_пользователя_и_сохраняем_в_базу_если_он_новый(chat, match):
         await chat.send_text(escape_markdown(emojize(load("messages/on_start.md"))), **{"parse_mode": "MarkdownV2"})
 
-        user_id = chat.sender["id"]
-        known_user = await check_user_in_db(user_id)
-
-        if not known_user:
-            user = await get_user_data_from_api(bot, user_id)
-            await save_user_to_db(user)
+        if await есть_ли_у_нас_в_базе_такой_пользователь(chat.sender["id"]) is False:
+            await сохранить_инфу_о_пользователе_в_базу_данных(
+                await получить_инфу_об_отправителе_от_апи_телеграмма(bot, chat.sender["id"])
+            )

@@ -6,36 +6,31 @@ from workflows.mover_registration import MoverRegistration
 
 from models import TelegramUser
 
+# this tests, exactly bad example of test suit.
 
 class ChatStub:
+    # implements stub/mock for aiotg.Chat
     def __init__(self):
         self.bot = SimpleNamespace()
         self.bot.send_text = self.send_text
-        self.bot._commands = []
+        self.bot._commands = []  # somekind of hack. see aiotg.Bot
         self.id = 0
 
     def send_text(self, message, **options):
         pass
 
+
 @patch("builtins.open", new_callable=mock_open, read_data="data")
 def test_mover_registration_pipeline_process_code(mock_open):
-
     user_id = 55667788
-
     chat = ChatStub()
+    current_registration = MoverRegistration(chat, {})
 
-    registrations = {}
-
-    current_registration = registrations[user_id] = MoverRegistration(chat, {})
-
-    assert current_registration.state == "lets_ask_code"
-
-    current_registration.start()
-
-    assert current_registration.state == "waiting_code"
+    assert current_registration.state == "начало"
+    current_registration.стартуем()
+    assert current_registration.state == "ожидаем_регистрационный_код"
 
     current_registration.process_code(5)
-
     assert current_registration.state == "code_received"
 
     current_registration.user = {"fullname": "test"}
@@ -49,21 +44,15 @@ def test_mover_registration_pipeline_process_code(mock_open):
 def test_mover_registration_pipeline_bad_code(mock_open):
 
     user_id = 55667788
-
     chat = ChatStub()
 
-    registrations = {}
+    current_registration = MoverRegistration(chat, {})
 
-    current_registration = registrations[user_id] = MoverRegistration(chat, {})
+    assert current_registration.state == "начало"
+    current_registration.стартуем()
 
-    assert current_registration.state == "lets_ask_code"
-
-    current_registration.start()
-
-    assert current_registration.state == "waiting_code"
-
+    assert current_registration.state == "ожидаем_регистрационный_код"
     current_registration.process_code(5)
-
     assert current_registration.state == "code_received"
 
     current_registration.user = {"fullname": "test"}

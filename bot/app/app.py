@@ -1,10 +1,12 @@
-from aiotg import Bot
-from multiprocessing import Process
 import logging
+from multiprocessing import Process
+
+from aiotg import Bot
 
 import config
 import workflows
 from workflows import db_watcher
+
 
 logging.basicConfig(level=logging.DEBUG)
 
