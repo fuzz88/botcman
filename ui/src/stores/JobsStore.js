@@ -17,7 +17,7 @@ export const wss_event_trigger = readable({ event: { name: null } }, function st
 
 export const jobs = derived(wss_event_trigger, ($wss_event_trigger, set) => {
     if ($wss_event_trigger.event.name == "jobs_update") {
-        const res = fetch("/api/botcman/jobs/list", {
+        fetch("/api/botcman/jobs/list", {
             method: "GET",
             credentials: 'include'
         }).then(result => result.json())
@@ -84,6 +84,7 @@ export async function archiveJob(id) {
 
     if (resp.status == 422) {
         const data = await resp.json();
+        // WTF? Why 422?
     };
 
 }

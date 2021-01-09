@@ -17,7 +17,7 @@ export const wss_event_trigger = readable({ event: { name: null } }, function st
 
 export const team_members = derived(wss_event_trigger, ($wss_event_trigger, set) => {
     if ($wss_event_trigger.event.name == "team_members_update") {
-        const res = fetch("/api/botcman/team/list", {
+        fetch("/api/botcman/team/list", {
             method: "GET",
             credentials: 'include'
         }).then(result => result.json())
