@@ -39,6 +39,7 @@ test-api:
   needs: [build-api]
   image: $CI_REGISTRY_IMAGE:api
   script:
+    - cd /opt/app
     - sh /opt/app/run_tests.sh
 
 test-bot:
@@ -46,6 +47,7 @@ test-bot:
   needs: [build-bot]
   image: $CI_REGISTRY_IMAGE:bot
   script:
+    - cd /opt/app
     - sh /opt/app/run_tests.sh
 
 test-ui:
