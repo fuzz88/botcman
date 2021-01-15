@@ -20,7 +20,7 @@ class ChatStub:
         pass
 
 
-@patch("builtins.open", new_callable=mock_open, read_data="data")
+@patch("builtins.open", new_callable=mock_open, read_data="filecontentmock")
 def test_mover_registration_pipeline_process_code(mock_open):
     user_id = 55667788
     chat = ChatStub()
@@ -40,7 +40,7 @@ def test_mover_registration_pipeline_process_code(mock_open):
     assert current_registration.state == "finished"
 
 
-@patch("builtins.open", new_callable=mock_open, read_data="data")
+@patch("builtins.open", new_callable=mock_open, read_data="filecontentmock")
 def test_mover_registration_pipeline_bad_code(mock_open):
 
     user_id = 55667788
