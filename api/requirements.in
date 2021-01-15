@@ -4,3 +4,4 @@ databases[postgresql]
 pyjwt
 uvicorn
 gunicorn
+pytest
