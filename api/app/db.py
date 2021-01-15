@@ -10,12 +10,12 @@ metadata = sqlalchemy.MetaData()
 
 def init(app):
 
-    # fastapi events
+    # setup fastapi events
 
     @app.on_event("startup")
     async def startup():
-        await database.connect()
-        await postgres_connections.create_pool(settings.DATABASE_URL)
+        await database.connect()  # databases
+        await postgres_connections.create_pool(settings.DATABASE_URL)  # asyncpg, for postgres NOTIFY
 
     @app.on_event("shutdown")
     async def shutdown():

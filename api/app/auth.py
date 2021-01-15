@@ -81,6 +81,7 @@ class UserRole(SimpleUser):
 async def current_user(request: Request):
     # request handler dependency.
     # when dependency loaded as Depend() argument, the auth cookie is checked internally on each request.
+    # see AuthenticationBackend docs.
     return request.user
 
 

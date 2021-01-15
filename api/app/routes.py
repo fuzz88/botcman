@@ -137,6 +137,7 @@ def init(app):
         # but between sending messages this handler
         # (maybe disconnected and needed to be garbage-collected)
         # hangs in memory waiting for postgres event.
+        # rewrite in go.
 
         await websocket.accept()
         connected = True
