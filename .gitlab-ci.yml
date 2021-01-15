@@ -13,6 +13,8 @@ build-api:
 build-bot:      
   stage: build
   image: docker:latest
+  services:
+    - docker:19.03.13-dind
   tags: ['docker']
   script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
@@ -23,6 +25,8 @@ build-bot:
 build-ui:
   stage: build
   image: docker:latest
+  services:
+    - docker:19.03.13-dind
   tags: ['docker']
   script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
