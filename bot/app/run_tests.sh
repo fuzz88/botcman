@@ -1,3 +1,3 @@
-#!/bin/bash
+#!/bin/sh
 
- PYTHONPATH="." pytest workflows/tests -v
+ PYTHONPATH="." python -m pytest workflows/tests -v
