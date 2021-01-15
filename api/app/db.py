@@ -15,7 +15,9 @@ def init(app):
     @app.on_event("startup")
     async def startup():
         await database.connect()  # databases
-        await postgres_connections.create_pool(settings.DATABASE_URL)  # asyncpg, for postgres NOTIFY
+        await postgres_connections.create_pool(
+            settings.DATABASE_URL
+        )  # asyncpg, for postgres NOTIFY
 
     @app.on_event("shutdown")
     async def shutdown():
@@ -52,9 +54,15 @@ jobs = sqlalchemy.Table(
     metadata,
     sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
     sqlalchemy.Column("ext_id", sqlalchemy.Integer),
-    sqlalchemy.Column("manager_id", sqlalchemy.Integer, sqlalchemy.ForeignKey("managers.id")),
-    sqlalchemy.Column("brigade_id", sqlalchemy.Integer, sqlalchemy.ForeignKey("temp_brigades.id")),
-    sqlalchemy.Column("messages_id", sqlalchemy.Integer, sqlalchemy.ForeignKey("temp_messages.id")),
+    sqlalchemy.Column(
+        "manager_id", sqlalchemy.Integer, sqlalchemy.ForeignKey("managers.id")
+    ),
+    sqlalchemy.Column(
+        "brigade_id", sqlalchemy.Integer, sqlalchemy.ForeignKey("brigades.id")
+    ),
+    sqlalchemy.Column(
+        "messages_id", sqlalchemy.Integer, sqlalchemy.ForeignKey("messages.id")
+    ),
     sqlalchemy.Column("status", sqlalchemy.String),
 )
 

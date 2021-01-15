@@ -1,5 +1,4 @@
 import functools
-from typing import Optional
 
 from fastapi import Request, Response, HTTPException, WebSocket, status
 
@@ -29,10 +28,14 @@ def init(app):
         api_user = await lookup_user(user_creds)
         if api_user is not None:
             token = jwt.encode(
-                {"user": models.AuthUser(**api_user).dict()}, str(settings.SECRET_KEY), algorithm="HS256"
+                {"user": models.AuthUser(**api_user).dict()},
+                str(settings.SECRET_KEY),
+                algorithm="HS256",
             )
 
-            response.set_cookie(key="token", value=token.decode(), max_age=60 * 60 * 24 * 10)
+            response.set_cookie(
+                key="token", value=token.decode(), max_age=60 * 60 * 24 * 10
+            )
             return {"detail": "authorized"}
         raise HTTPException(status_code=401)
 
@@ -59,7 +62,9 @@ class JWTCookieAuthBackend(AuthenticationBackend):
             return
 
         try:
-            decoded = jwt.decode(token, str(settings.SECRET_KEY), algorithms="HS256", verify=True)
+            decoded = jwt.decode(
+                token, str(settings.SECRET_KEY), algorithms="HS256", verify=True
+            )
         except jwt.exceptions.InvalidTokenError:
             raise AuthenticationError("Invalid token")
 
@@ -104,8 +109,11 @@ async def check_coockie(websocket: WebSocket):
     # fast api request handler dependency.
     # checks auth coockie for websocket request handler.
     try:
-        decoded = jwt.decode(
-            websocket.cookies.get("token", None), str(settings.SECRET_KEY), algorithms="HS256", verify=True
+        _ = jwt.decode(
+            websocket.cookies.get("token", None),
+            str(settings.SECRET_KEY),
+            algorithms="HS256",
+            verify=True,
         )
     except (jwt.exceptions.InvalidTokenError):
         await websocket.close(code=status.WS_1008_POLICY_VIOLATION)

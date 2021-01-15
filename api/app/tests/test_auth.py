@@ -1,4 +1,3 @@
-import pytest
 from unittest.mock import patch, mock_open
 
 from fastapi import FastAPI
@@ -7,6 +6,7 @@ from fastapi import FastAPI
 def test_init():
     # check if main returns "no errors"
     from app import main
+
     assert isinstance(main(), FastAPI) is True
 
 
