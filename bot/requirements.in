@@ -3,3 +3,4 @@ asyncpg
 aiohttp[speedups]
 transitions
 pydantic
+pytest
