@@ -1,0 +1,25 @@
+version: "3.9"
+services:
+  botcman__api:
+    restart: always
+    container_name: botcman__api
+    image: registry.gitlab.com/botcman1/main:api
+    networks:
+      - botcman
+
+  botcman__bot:
+    container_name: botcman__bot
+    image: registry.gitlab.com/botcman1/main:bot
+    networks:
+      - botcman
+
+  botcman__ui:
+    restart: always
+    container_name: botcman__ui
+    image: registry.gitlab.com/botcman1/main:ui
+    networks:
+      - botcman
+
+networks:
+  botcman:
+    external: True
