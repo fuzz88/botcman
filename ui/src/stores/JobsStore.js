@@ -17,7 +17,7 @@ export const wss_event_trigger = readable({ event: { name: null } }, function st
 
 export const jobs = derived(wss_event_trigger, ($wss_event_trigger, set) => {
     if ($wss_event_trigger.event.name == "jobs_update") {
-        fetch("/api/botcman/jobs/list", {
+        fetch("https://gaps-apps.ru/api/botcman/jobs/list", {
             method: "GET",
             credentials: 'include'
         }).then(result => result.json())
@@ -41,7 +41,7 @@ export async function newJob(ext_id, manager, status, chat_message, courier_mess
         mover_message: mover_message,
     }
 
-    const resp = await fetch("/api/botcman/jobs/add", {
+    const resp = await fetch("https://gaps-apps.ru/api/botcman/jobs/add", {
         method: "POST",
         credentials: 'include', // include, *same-origin, omit
         headers: {
@@ -58,7 +58,7 @@ export async function newJob(ext_id, manager, status, chat_message, courier_mess
 
 export async function getJob(id) {
 
-    const resp = await fetch("/api/botcman/jobs/get/" + id, {
+    const resp = await fetch("https://gaps-apps.ru/api/botcman/jobs/get/" + id, {
         method: "GET",
         credentials: 'include', // include, *same-origin, omit
         headers: {
@@ -74,7 +74,7 @@ export async function getJob(id) {
 
 export async function archiveJob(id) {
 
-    const resp = await fetch("/api/botcman/jobs/archive/" + id, {
+    const resp = await fetch("https://gaps-apps.ru/api/botcman/jobs/archive/" + id, {
         method: "DELETE",
         credentials: 'include', // include, *same-origin, omit
         headers: {
@@ -100,7 +100,7 @@ export async function editJob(id, ext_id, manager, status, chat_message, brigadi
         mover_message: mover_message,
     }
 
-    const resp = await fetch("/api/botcman/jobs/edit/"+id, {
+    const resp = await fetch("https://gaps-apps.ru/api/botcman/jobs/edit/"+id, {
         method: "POST",
         credentials: 'include', // include, *same-origin, omit
         headers: {
@@ -117,7 +117,7 @@ export async function editJob(id, ext_id, manager, status, chat_message, brigadi
 }
 
 export async function runJob(id) {
-    const resp = await fetch("/api/botcman/jobs/run/" + id, {
+    const resp = await fetch("https://gaps-apps.ru/api/botcman/jobs/run/" + id, {
         method: "GET",
         credentials: 'include',
     })
