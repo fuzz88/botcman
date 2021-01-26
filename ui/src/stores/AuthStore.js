@@ -21,7 +21,7 @@ export const user = derived(auth_cookie,
 
 export async function getLogged(username, password) {
         const user = {'username': username, 'password': password}
-        const res = await fetch('/api/botcman/auth', {
+        const res = await fetch('https://gaps-apps.ru/api/botcman/auth', {
             method: 'POST',
             credentials: 'include', // include, *same-origin, omit
             headers: {

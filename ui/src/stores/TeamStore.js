@@ -17,7 +17,7 @@ export const wss_event_trigger = readable({ event: { name: null } }, function st
 
 export const team_members = derived(wss_event_trigger, ($wss_event_trigger, set) => {
     if ($wss_event_trigger.event.name == "team_members_update") {
-        fetch("/api/botcman/team/list", {
+        fetch("https://gaps-apps.ru/api/botcman/team/list", {
             method: "GET",
             credentials: 'include'
         }).then(result => result.json())
@@ -36,7 +36,7 @@ export async function newTeamMember(fullname, reliability, stamina, experience) 
         experience: experience,
     }
 
-    const resp = await fetch("/api/botcman/team/add", {
+    const resp = await fetch("https://gaps-apps.ru/api/botcman/team/add", {
         method: "POST",
         credentials: 'include', // include, *same-origin, omit
         headers: {
@@ -54,7 +54,7 @@ export async function newTeamMember(fullname, reliability, stamina, experience) 
 
 export async function archiveTeamMember(id) {
 
-    const resp = await fetch("/api/botcman/team/archive/" + id, {
+    const resp = await fetch("https://gaps-apps.ru/api/botcman/team/archive/" + id, {
         method: "DELETE",
         credentials: 'include', // include, *same-origin, omit
         headers: {
