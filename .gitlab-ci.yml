@@ -1,3 +1,6 @@
+variables:
+  DOCKER_TLS_CERTDIR: "/certs"
+
 build-api:
   stage: build
   image: docker:latest
