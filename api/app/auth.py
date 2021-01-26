@@ -43,7 +43,7 @@ def init(app):
 async def lookup_user(user_creds: models.UserCredentials) -> object:
     # idea for integration test:
     # test fetch_one returns None
-    return db.database.fetch_one(
+    return await db.database.fetch_one(
         (
             db.api_users.select()
             .where(db.api_users.c.username == user_creds.username)
