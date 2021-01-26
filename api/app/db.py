@@ -37,7 +37,7 @@ postgres_connections = DBPool()
 # sqlalchemy table models
 
 movers = sqlalchemy.Table(
-    "temp_movers",
+    "movers",
     metadata,
     sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
     sqlalchemy.Column("fullname", sqlalchemy.String),
@@ -49,25 +49,8 @@ movers = sqlalchemy.Table(
     sqlalchemy.Column("status", sqlalchemy.String),
 )
 
-jobs = sqlalchemy.Table(
-    "temp_jobs",
-    metadata,
-    sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
-    sqlalchemy.Column("ext_id", sqlalchemy.Integer),
-    sqlalchemy.Column(
-        "manager_id", sqlalchemy.Integer, sqlalchemy.ForeignKey("managers.id")
-    ),
-    sqlalchemy.Column(
-        "brigade_id", sqlalchemy.Integer, sqlalchemy.ForeignKey("brigades.id")
-    ),
-    sqlalchemy.Column(
-        "messages_id", sqlalchemy.Integer, sqlalchemy.ForeignKey("messages.id")
-    ),
-    sqlalchemy.Column("status", sqlalchemy.String),
-)
-
 messages = sqlalchemy.Table(
-    "temp_messages",
+    "messages",
     metadata,
     sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
     sqlalchemy.Column("chat_message", sqlalchemy.String),
@@ -84,12 +67,28 @@ managers = sqlalchemy.Table(
 )
 
 brigades = sqlalchemy.Table(
-    "temp_brigades",
+    "brigades",
     metadata,
     sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
     sqlalchemy.Column("brigade", sqlalchemy.dialects.postgresql.JSONB),
 )
 
+jobs = sqlalchemy.Table(
+    "jobs",
+    metadata,
+    sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
+    sqlalchemy.Column("ext_id", sqlalchemy.Integer),
+    sqlalchemy.Column(
+        "manager_id", sqlalchemy.Integer, sqlalchemy.ForeignKey("managers.id")
+    ),
+    sqlalchemy.Column(
+        "brigade_id", sqlalchemy.Integer, sqlalchemy.ForeignKey("brigades.id")
+    ),
+    sqlalchemy.Column(
+        "messages_id", sqlalchemy.Integer, sqlalchemy.ForeignKey("messages.id")
+    ),
+    sqlalchemy.Column("status", sqlalchemy.String),
+)
 
 api_users = sqlalchemy.Table(
     "api_users",
