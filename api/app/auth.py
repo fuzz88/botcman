@@ -46,8 +46,8 @@ async def lookup_user(user_creds: models.UserCredentials) -> object:
     return db.database.fetch_one(
         (
             models.api_users.select()
-            .where(models.api_users.c.username == user_creds.username)
-            .where(models.api_users.c.password == user_creds.password)
+            .where(db.api_users.c.username == user_creds.username)
+            .where(db.api_users.c.password == user_creds.password)
         )
     )
 
